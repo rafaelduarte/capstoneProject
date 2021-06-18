@@ -1,111 +1,51 @@
-const mongoose = require('mongoose');
-const User = mongoose.model('User');
+const User = require("../model/user.model");
+const {
+  registerValidation,
+  loginValidation,
+} = require("../validation/joiValidation");
 
-const getUsers = function (_, res) {
-  User.find()
-    .exec(function (err, userData) {
-      if (err) {
-        res.status(404).json(err);
-        return;
-      }
-      res.status(200).json(userData);
-    });
+//REGISTER MODULE
+const registerModule = async (req, res) => {
+  //Validation
+  const { error } = registerValidation(req.body);
+  if (error) return res.status(400).send(error.details[0].message);
+
+  //Check if email(user) already exists in Database
+  const emailExist = await User.findOne({ email: req.body.email });
+  if (emailExist) return res.status(400).send("Email already exists");
+
+  //Create a new user
+  const user = new User();
+  user.name = req.body.name;
+  user.email = req.body.email;
+  user.setPassword(req.body.password);
+  try {
+    const savedUser = await user.save();
+    res.send(savedUser);
+  } catch (err) {
+    res.status(400).send(err);
+  }
 };
+//LOGIN MODULE
+const loginModule = async (req, res) => {
+  //Validation
+  const { error } = loginValidation(req.body);
+  if (error) return res.status(400).send(error.details[0].message);
 
-const getSingleUser = function (req, res) {
-  User.findById(req.params.userId)
-    .exec((err, userData) => {
-      if (!userData) {
-        return res.status(404).json({
-          'message' : 'User not found.'
-        });
-      } else if (err) {
-        return res.status(404).json(err);
-      }
-      res.status(200).json(userData);
-    });
-};
+  //Check if email(user) exists in Database
+  await User.findOne({ email: req.body.email }, function (err, user) {
+    //Are ther eany server/database error
+    if (err) return res.send(err);
+    //Is Email corect?
+    if (!user) return res.status(400).send("Email or password is incorrect");
+    //Is password correct?
+    if (!user.validPassword(req.body.password))
+      return res.status(400).send("Password incorrect");
 
-const createUser = function (req, res) {
-  User.create({
-    name       : req.body.name,
-    email      : req.body.email,
-    username   : req.body.username,
-    dob        : req.body.dob,
-    questions  : req.body.questions,
-    answers    : req.body.answers,
-    comments   : req.body.comments,
-    joinDate   : req.body.joinDate,
-    lastUpdate : req.body.lastUpdate,
-  }, (err, userData) => {
-    if (err) {
-      res.status(404).json(err);
-    } else {
-      res.status(201).json(userData);
-    }
+    //Assigning JWT token
+    var token = user.generateJwt();
+    res.header("auth-token", token).send(token);
   });
 };
 
-const updateUser = function (req, res) {
-  if (!req.params.userId) {
-    res.status(404).json({
-      'message' : 'userId is required to update.'
-    });
-    return;
-  }
-  User.findById(req.params.userId)
-    .exec((err, userData) => {
-      if (!userData) {
-        res.status(404).json({
-          'message' : 'User not found.'
-        });
-        return;
-      } else if (err) {
-        res.status(400).json(err);
-        return;
-      }
-      userData.name       = req.body.name;
-      userData.email      = req.body.email;
-      userData.username   = req.body.username;
-      userData.dob        = req.body.dob;
-      userData.questions  = req.body.questions;
-      userData.answers    = req.body.answers;
-      userData.comments   = req.body.comments;
-      userData.joinDate   = req.body.joinDate;
-      userData.lastUpdate = req.body.lastUpdate;
-      userData.save((err, userData) => {
-        if (err) {
-          res.status(404).json(err);
-          return;
-        } else {
-          res.status(200).json(userData);
-        }
-      });
-    });
-};
-
-const deleteUser = function (req, res) {
-  const userId = req.params.userId;
-  if (userId) {
-    User.findByIdAndDelete(userId)
-      .exec((err, _) => {
-        if (err) {
-          res.status(404).json(err);
-          return;
-        }
-        res.status(204).json(null);
-      });
-  } else {
-    res.status(404).json({
-      'message' : 'User not found.'
-    });
-  }
-};
-
-module.exports = {
-  getUsers,
-  getSingleUser,
-  createUser,
-  updateUser,
-  deleteUser,
-};
+module.exports = { registerModule, loginModule };
