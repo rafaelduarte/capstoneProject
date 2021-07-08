@@ -23,6 +23,12 @@ var userSchema = new mongoose.Schema({
   },
   hash: String,
   salt: String,
+  questions: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Question",
+    },
+  ],
 });
 
 //Password Hashing || Adding some salt and pepper XD

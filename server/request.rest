@@ -1,10 +1,25 @@
-POST http://localhost:3000/api/user/register
+GET http://localhost:3000/api/question
+Content-Type: application/http
+{
+    "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MGNjOWRlNGU0NThmOTNiZmNiZjAxMDIiLCJlbWFpbCI6Im11bmluZHJhc29uaTk5QGVtYWlsLmNvbSIsImV4cCI6MTYyNDYyNzM0MywiaWF0IjoxNjI0MDIyNTQzfQ.1dQPdAnzkbJwGxYyRLqVYTmpCzp1T2bjb_L2aLYD4_c"
+}
+
+###
+
+POST http://localhost:3000/api/login
 Content-Type: application/json
 
 {
-    "name": "Mun",
-    "email": "munm",
-    "password": "paord@123"
+    "email": "munindrasoni99@email.com",
+    "password": "password@123"
+}
+
+###
+
+GET http://localhost:3000/api/posts
+Content-Type: application/http
+{
+    "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MGNjOWRlNGU0NThmOTNiZmNiZjAxMDIiLCJlbWFpbCI6Im11bmluZHJhc29uaTk5QGVtYWlsLmNvbSIsImV4cCI6MTYyNDYyNzM0MywiaWF0IjoxNjI0MDIyNTQzfQ.1dQPdAnzkbJwGxYyRLqVYTmpCzp1T2bjb_L2aLYD4_c"
 }
 
 ###

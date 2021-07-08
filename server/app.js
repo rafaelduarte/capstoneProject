@@ -7,7 +7,7 @@ var logger = require("morgan");
 require("./model/db");
 
 var indexApi = require("./routes/index.route");
-var routesApi = require("./routes/user.route");
+var routesApi = require("./routes/routeApi");
 
 var app = express();
 

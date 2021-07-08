@@ -4,7 +4,7 @@ const {
   loginValidation,
 } = require("../validation/joiValidation");
 
-//REGISTER MODULE
+//Create User Module
 const registerModule = async (req, res) => {
   //Validation
   const { error } = registerValidation(req.body);
@@ -26,7 +26,10 @@ const registerModule = async (req, res) => {
     res.status(400).send(err);
   }
 };
-//LOGIN MODULE
+//Render Create User Module
+const renderRegisterModule = () => {};
+
+//Login User Module
 const loginModule = async (req, res) => {
   //Validation
   const { error } = loginValidation(req.body);
@@ -47,5 +50,12 @@ const loginModule = async (req, res) => {
     res.header("auth-token", token).send(token);
   });
 };
+//Render Login Module
+const renderLoginModule = () => {};
 
-module.exports = { registerModule, loginModule };
+module.exports = {
+  registerModule,
+  renderRegisterModule,
+  loginModule,
+  renderLoginModule,
+};
