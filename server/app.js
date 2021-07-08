@@ -9,7 +9,11 @@ require("./model/db");
 var indexApi = require("./routes/index.route");
 var routesApi = require("./routes/routeApi");
 
-var app = express();
+const indexRouter = require('./routes/index');
+// const usersRouter = require('./routes/users');
+const apiRouter = require('./routes/api');
+
+const app = express();
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
