@@ -9,12 +9,12 @@ const ctrlAnswer = require("../controllers/answer.controller");
 //User API
 //Register User Route
 router
-  .route("/register")
+  .route("/users/register")
   .get(ctrlUser.renderRegisterModule)
   .post(ctrlUser.registerModule);
 //Login User Route
 router
-  .route("/login")
+  .route("/users/login")
   .get(ctrlUser.renderLoginModule)
   .post(ctrlUser.loginModule);
 //Profile USER Route
@@ -23,16 +23,13 @@ router.route("/profile").get(authorization.authorization, ctrlProfile.profile);
 //QUESTIONS API
 //Fetch ALL the QUESTIONS
 //Get QUESTION Route
-router
-  .route("/questions")
-  .get(authorization.authorization, ctrlQuestion.getQuestions);
+router.route("/questions").get(ctrlQuestion.getQuestions);
 
 //|-}~PENDING~{-|
 //Fetch QUESTIONS by a particular USER
 router
   .route("/:userID/questions")
-  .get(authorization.authorization, ctrlQuestion.renderUserQuestions)
-  .post(authorization.authorization, ctrlQuestion.userQuestions);
+  .get(authorization.authorization, ctrlQuestion.userQuestions);
 
 //User is asking a QUESTION
 //Create QUESTION Route
@@ -46,7 +43,7 @@ router
 router
   .route("/question/:questionID/editQuestion")
   .get(authorization.authorization, ctrlQuestion.renderEditQuestion)
-  .put(authorization.authorization, ctrlQuestion.renderEditQuestion);
+  .put(authorization.authorization, ctrlQuestion.editQuestion);
 
 //|-}~PENDING~{-|
 //Answer API
@@ -63,7 +60,7 @@ router
 //Fetch an individual QUESTION with ANSWERS
 router
   .route("/question/:questionID")
-  .get(authorization.authorization, ctrlQuestion.renderUserQuestion)
-  .post(authorization.authorization, ctrlQuestion.userQuestion);
+  .get(authorization.authorization, ctrlQuestion.renderQuestionAndAnswer)
+  .post(authorization.authorization, ctrlQuestion.questionAndAnswer);
 
 module.exports = router;

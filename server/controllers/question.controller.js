@@ -28,14 +28,36 @@ const getQuestions = (req, res) => {
 };
 
 //|-}~PENDING~{-|
-//Fetch QUESTIONS by a particular USER
-const renderUserQuestion = () => {};
-const userQuestion = () => {};
+//Fetch an individual QUESTION with ANSWERS
+const renderQuestionAndAnswer = (req, res) => {};
+const questionAndAnswer = (req, res) => {};
 
 //|-}~PENDING~{-|
-//Fetch an individual QUESTION with ANSWERS
-const renderUserQuestions = () => {};
-const userQuestions = () => {};
+//Fetch QUESTIONS by a particular USER
+const renderUserQuestions = (req, res) => {
+  res.send({
+    User: {
+      Question: {
+        questionTitle: "Question title: ",
+        questionText: "Question in Brief: ",
+      },
+    },
+  });
+};
+const userQuestions = (req, res) => {
+  const userID = req.params.userID;
+  Question.find({ owner: userID })
+    .populate("owner", "name")
+    .exec((err, questions) => {
+      if (err) {
+        return res.status(400).send({
+          message: getErrorMessage(err),
+        });
+      } else {
+        res.status(200).json(questions);
+      }
+    });
+};
 
 //Create a Question by particular User
 const createQuestion = async (req, res) => {
@@ -45,22 +67,21 @@ const createQuestion = async (req, res) => {
   question.owner = req.user;
 
   try {
-    const savedQuestion = await question.save().then(
+    await question.save().then(
       User.findByIdAndUpdate(
-        req.params.id,
+        req.params.userID,
         { $push: { questions: question._id } },
         { new: true, useFindAndModify: false }
       ).exec((err, userData) => {
         if (err) {
-          res.send(err);
+          console.error(err);
         } else {
-          res.json(userData);
+          res.send(userData);
         }
       })
     );
-    res.send(savedQuestion);
   } catch (err) {
-    res.status(400).send(err);
+    console.error(err);
   }
 };
 //Render the Create Question Page
@@ -79,9 +100,9 @@ const renderEditQuestion = () => {};
 const editQuestion = () => {};
 
 module.exports = {
+  renderQuestionAndAnswer,
+  questionAndAnswer,
   getQuestions,
-  renderUserQuestion,
-  userQuestion,
   renderUserQuestions,
   userQuestions,
   renderCreateQuestion,

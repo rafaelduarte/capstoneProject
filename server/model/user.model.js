@@ -21,6 +21,17 @@ var userSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  username: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  bio: {
+    type: String,
+  },
+  date_of_birth: {
+    type: Date,
+  },
   hash: String,
   salt: String,
   questions: [
@@ -50,12 +61,14 @@ userSchema.methods.validPassword = function (password) {
 //Jwt Generation
 userSchema.methods.generateJwt = function () {
   var expiry = new Date();
-  expiry.setDate(expiry.getDate() + 7);
+  expiry.setDate(expiry.getDate() + 1);
 
   return jwt.sign(
     {
       _id: this._id,
+      name: this.name,
       email: this.email,
+      name: this.name,
       exp: parseInt(expiry.getTime() / 1000),
     },
     process.env.ACCESS_TOKEN_SECRET

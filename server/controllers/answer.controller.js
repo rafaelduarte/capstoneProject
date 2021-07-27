@@ -3,7 +3,15 @@ const Question = require("../model/question.model");
 
 //|-}~PENDING~{-|
 //Get all ANSWERS for particular QUESTION
-const getAnswers = async (req, res) => {};
+const getAnswers = async (req, res) => {
+  Answer.find().exec((err, answerData) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.send(answerData);
+    }
+  });
+};
 
 const createAnswer = async (req, res) => {
   const answer = new Answer();
@@ -11,20 +19,19 @@ const createAnswer = async (req, res) => {
   answer.author = req.user;
 
   try {
-    const savedAnswer = await answer.save().then(
+    await answer.save().then(
       Question.findByIdAndUpdate(
-        req.params.id,
+        req.params.questionID,
         { $push: { answers: answer._id } },
         { new: true, useFindAndModify: false }
       ).exec((err, questionData) => {
         if (err) {
-          res.send(err);
+          console.log(err);
         } else {
-          res.json(questionData);
+          res.send(questionData);
         }
       })
     );
-    res.send(savedAnswer);
   } catch (err) {
     res.status(400).send(err);
   }

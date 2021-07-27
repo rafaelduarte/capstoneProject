@@ -1,0 +1,61 @@
+<nav class="navbar navbar-expand-lg sticky-top navbar-light bg-light">
+  <div class="container">
+    <a
+      class="navbar-brand"
+      [routerLink]="['/']"
+      routerLinkActive="router-link-active"
+      >QandA
+    </a>
+    <button
+      class="navbar-toggler"
+      data-toggle="collapse"
+      data-target="#navbarMenu"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarMenu">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/questions">Questions</a>
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            *ngIf="!authService.isAuthenticated()"
+            routerLink="/login"
+            >Sign in</a
+          >
+        </li>
+
+        <li class="nav-item dropdown">
+          <a
+            class="nav-link dropdown-toggle"
+            id="navbarDropdown"
+            *ngIf="authService.isAuthenticated()"
+            role="button"
+            data-toggle="dropdown"
+            >Hi, {{ authService.getUserName() }}
+          </a>
+          <div class="dropdown-menu">
+            <a
+              class="dropdown-item my-auto"
+              *ngIf="authService.isAuthenticated()"
+              routerLink="/profile"
+              >Profile</a
+            >
+            <button
+              class="dropdown-item button-dropdown-item my-auto"
+              *ngIf="authService.isAuthenticated()"
+              (click)="authService.logout()"
+            >
+              Logout
+            </button>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

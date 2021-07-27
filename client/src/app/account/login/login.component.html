@@ -1,0 +1,36 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-6">
+      <h1 class="form-sigin-heading">Sign in</h1>
+      <p class="lead">
+        Not a member? Please <a routerLink="/register">register</a>instead.
+      </p>
+      <form [formGroup]="form" (submit)="login()">
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input
+            formControlName="email"
+            type="email"
+            class="form-control"
+            name="email"
+            placeholder="Enter email"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input
+            formControlName="password"
+            type="password"
+            class="form-control"
+            name="password"
+            placeholder="Password"
+            required
+          />
+        </div>
+        <button type="submit" class="btn btn-primary">Sign In!</button>
+      </form>
+    </div>
+  </div>
+</div>
