@@ -8,11 +8,18 @@ const ctrlAnswer = require("../controllers/answer.controller");
 
 //User API
 //Register User Route
-router.route("/users/register").post(ctrlUser.registerModule);
+router
+  .route("/users/register")
+  .post(ctrlUser.registerModule);
 //Login User Route
-router.route("/users/login").post(ctrlUser.loginModule);
+router
+  .route("/users/login")
+  .post(ctrlUser.loginModule);
+
 //Profile USER Route
-router.route("/profile").get(authorization.authorization, ctrlProfile.profile);
+router
+  .route("/profile")
+  .get(authorization.authorization, ctrlProfile.profile);
 
 //QUESTIONS API
 //User is asking a QUESTION
@@ -22,17 +29,18 @@ router
   .post(authorization.authorization, ctrlQuestion.createQuestion);
 //Fetch ALL the QUESTIONS
 //Get QUESTION Route
-router.route("/questions").get(ctrlQuestion.getQuestions);
+router
+  .route("/questions")
+  .get(ctrlQuestion.getQuestions);
 
 //Fetch QUESTIONS by a particular USER
 router
   .route("/:userid/questions")
   .get(authorization.authorization, ctrlQuestion.userQuestions);
-
 //Fetch an individual QUESTION
-router.route("/questions/:questionid").get(ctrlQuestion.questionAndAnswer);
-
-//|-}~PENDING~{-|
+router
+  .route("/questions/:questionid")
+  .get(ctrlQuestion.questionAndAnswer);
 //Modify a QUESTION Route
 router
   .route("/questions/:questionid/editQuestion")

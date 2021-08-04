@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 
 dotenv.config();
-mongoose.connect(process.env.DB_CONNECT, { dbName: "QandA" });
+mongoose.connect(process.env.DB_CONNECT, { dbName: "QandA", useNewUrlParser: true, useUnifiedTopology: true });
 
 mongoose.connection.on("connected", () => {
   console.log("- - - - - - - - - - - - - - - - - -");

@@ -31,7 +31,6 @@ const getQuestions = (req, res) => {
 //Fetch an individual QUESTION with ANSWERS
 const questionAndAnswer = (req, res) => {
   const questionid = req.params.questionid;
-  // console.log(questionid);
   Question.findOne({ _id: questionid })
     .populate("owner", "email name")
     .exec((err, question) => {
@@ -84,16 +83,16 @@ const createQuestion = async (req, res) => {
   }
 };
 
-//|-}~PENDING~{-|
 //Modify a QUESTION
 const editQuestion = async (req, res) => {
   const questionid = req.params.questionid;
   const question = new Question();
+  question.title = req.body.title;
   question.text = req.body.text;
 
   try {
-    await question
-      .findByIdAndUpdate(questionid, { text }, { new: true })
+    await Question
+      .findByIdAndUpdate(questionid, { title: question.title, text: question.text }, { new: true })
       .exec((err, data) => {
         if (err) {
           console.error(err);
