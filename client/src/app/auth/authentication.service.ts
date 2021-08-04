@@ -103,6 +103,15 @@ export class AuthenticationService {
     }
   }
 
+  public getUserId() {
+    const user = this.getUser();
+    if (user) {
+      return user._id;
+    } else {
+      return 'Please Sign In';
+    }
+  }
+
   public register(user: any) {
     return this.http
       .post<any>(this.server_route + '/users/register', user)

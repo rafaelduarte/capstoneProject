@@ -1,3 +1,4 @@
+const { string } = require("joi");
 const Question = require("../model/question.model");
 const User = require("../model/user.model");
 
@@ -27,49 +28,47 @@ const getQuestions = (req, res) => {
     });
 };
 
-//|-}~PENDING~{-|
 //Fetch an individual QUESTION with ANSWERS
-const renderQuestionAndAnswer = (req, res) => {};
-const questionAndAnswer = (req, res) => {};
-
-//|-}~PENDING~{-|
-//Fetch QUESTIONS by a particular USER
-const renderUserQuestions = (req, res) => {
-  res.send({
-    User: {
-      Question: {
-        questionTitle: "Question title: ",
-        questionText: "Question in Brief: ",
-      },
-    },
-  });
-};
-const userQuestions = (req, res) => {
-  const userID = req.params.userID;
-  Question.find({ owner: userID })
-    .populate("owner", "name")
-    .exec((err, questions) => {
+const questionAndAnswer = (req, res) => {
+  const questionid = req.params.questionid;
+  // console.log(questionid);
+  Question.findOne({ _id: questionid })
+    .populate("owner", "email name")
+    .exec((err, question) => {
       if (err) {
-        return res.status(400).send({
-          message: getErrorMessage(err),
-        });
+        return res.status(400).send({ message: getErrorMessage(err) });
       } else {
-        res.status(200).json(questions);
+        res.json(question);
       }
     });
+};
+
+//Fetch QUESTIONS by a particular USER
+const userQuestions = (req, res) => {
+  const userid = req.params.userid;
+
+  Question.find({ owner: userid }).exec((err, questions) => {
+    if (err) {
+      return res.status(400).send({
+        message: getErrorMessage(err),
+      });
+    } else {
+      res.status(200).json(questions);
+    }
+  });
 };
 
 //Create a Question by particular User
 const createQuestion = async (req, res) => {
   const question = new Question();
-  question.title = req.body.questionTitle;
-  question.text = req.body.questionText;
+  question.title = req.body.title;
+  question.text = req.body.text;
   question.owner = req.user;
 
   try {
     await question.save().then(
       User.findByIdAndUpdate(
-        req.params.userID,
+        req.params.userid,
         { $push: { questions: question._id } },
         { new: true, useFindAndModify: false }
       ).exec((err, userData) => {
@@ -84,29 +83,33 @@ const createQuestion = async (req, res) => {
     console.error(err);
   }
 };
-//Render the Create Question Page
-const renderCreateQuestion = (req, res) => {
-  res.send({
-    Question: {
-      questionTitle: "Enter Question title: ",
-      questionText: "Enter Question in Brief: ",
-    },
-  });
-};
 
 //|-}~PENDING~{-|
 //Modify a QUESTION
-const renderEditQuestion = () => {};
-const editQuestion = () => {};
+const editQuestion = async (req, res) => {
+  const questionid = req.params.questionid;
+  const question = new Question();
+  question.text = req.body.text;
+
+  try {
+    await question
+      .findByIdAndUpdate(questionid, { text }, { new: true })
+      .exec((err, data) => {
+        if (err) {
+          console.error(err);
+        } else {
+          res.send(data);
+        }
+      });
+  } catch (err) {
+    console.error(err);
+  }
+};
 
 module.exports = {
-  renderQuestionAndAnswer,
   questionAndAnswer,
   getQuestions,
-  renderUserQuestions,
   userQuestions,
-  renderCreateQuestion,
   createQuestion,
-  renderEditQuestion,
   editQuestion,
 };

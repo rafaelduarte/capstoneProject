@@ -1,12 +1,8 @@
-h5 {
-  margin-bottom: 0.1rem;
-}
-
-.answer-button {
-  padding: 0.8rem 2rem;
-  border-radius: 28px;
+.post-button {
+  padding: 0.6rem 1.8rem;
+  border-radius: 0.2rem;
   /* background-color: rgb(51, 51, 51); */
-  background: linear-gradient(to right, rgb(254, 180, 123), rgb(255, 126, 95));
+  background: linear-gradient(to right, rgb(255, 126, 95), rgb(254, 180, 123));
   color: #fff;
   background-size: 200% auto;
   transition: 1s;

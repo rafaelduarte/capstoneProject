@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { owner, questions } from '../models/questions.model';
+import { AuthenticationService } from '../auth/authentication.service';
+import { owner, questions } from '../models/question.model';
 import { DataService } from '../services/data.service';
 
 @Component({
@@ -9,8 +10,11 @@ import { DataService } from '../services/data.service';
 })
 export class HomeComponent implements OnInit {
   public Questions?: questions[];
-
-  constructor(private dataService: DataService) {}
+  user!: string;
+  constructor(
+    private dataService: DataService,
+    private authservice: AuthenticationService
+  ) {}
 
   private getQuestions() {
     this.dataService.getQuestions().then((data) => {
@@ -23,5 +27,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.getQuestions();
+    this.user = this.authservice.getUserId();
+    //console.log(this.user);
   }
 }

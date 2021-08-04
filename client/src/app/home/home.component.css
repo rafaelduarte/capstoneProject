@@ -22,7 +22,7 @@ button {
   background: linear-gradient(to right, rgb(255, 126, 95), rgb(254, 180, 123));
   color: #fff;
   background-size: 200% auto;
-  transition: 0.4s;
+  transition: 1s;
 }
 
 button:hover {

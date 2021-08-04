@@ -8,59 +8,40 @@ const ctrlAnswer = require("../controllers/answer.controller");
 
 //User API
 //Register User Route
-router
-  .route("/users/register")
-  .get(ctrlUser.renderRegisterModule)
-  .post(ctrlUser.registerModule);
+router.route("/users/register").post(ctrlUser.registerModule);
 //Login User Route
-router
-  .route("/users/login")
-  .get(ctrlUser.renderLoginModule)
-  .post(ctrlUser.loginModule);
+router.route("/users/login").post(ctrlUser.loginModule);
 //Profile USER Route
 router.route("/profile").get(authorization.authorization, ctrlProfile.profile);
 
 //QUESTIONS API
+//User is asking a QUESTION
+//Create QUESTION Route
+router
+  .route("/:userid/askQuestion")
+  .post(authorization.authorization, ctrlQuestion.createQuestion);
 //Fetch ALL the QUESTIONS
 //Get QUESTION Route
 router.route("/questions").get(ctrlQuestion.getQuestions);
 
-//|-}~PENDING~{-|
 //Fetch QUESTIONS by a particular USER
 router
-  .route("/:userID/questions")
+  .route("/:userid/questions")
   .get(authorization.authorization, ctrlQuestion.userQuestions);
 
-//User is asking a QUESTION
-//Create QUESTION Route
-router
-  .route("/:userID/askQuestion")
-  .get(authorization.authorization, ctrlQuestion.renderCreateQuestion)
-  .post(authorization.authorization, ctrlQuestion.createQuestion);
+//Fetch an individual QUESTION
+router.route("/questions/:questionid").get(ctrlQuestion.questionAndAnswer);
 
 //|-}~PENDING~{-|
 //Modify a QUESTION Route
 router
-  .route("/question/:questionID/editQuestion")
-  .get(authorization.authorization, ctrlQuestion.renderEditQuestion)
+  .route("/questions/:questionid/editQuestion")
   .put(authorization.authorization, ctrlQuestion.editQuestion);
 
-//|-}~PENDING~{-|
 //Answer API
-//Get all ANSWERS for particular QUESTION
-router.route("/question/:questionID/answers").get(ctrlAnswer.getAnswers);
-
 //Create ANSWER Route
 router
-  .route("/question/:questionID/giveAnswer")
-  .get(authorization.authorization, ctrlAnswer.renderCreateAnswer)
+  .route("/questions/:questionid/giveAnswer")
   .post(authorization.authorization, ctrlAnswer.createAnswer);
-
-//|-}~PENDING~{-|
-//Fetch an individual QUESTION with ANSWERS
-router
-  .route("/question/:questionID")
-  .get(authorization.authorization, ctrlQuestion.renderQuestionAndAnswer)
-  .post(authorization.authorization, ctrlQuestion.questionAndAnswer);
 
 module.exports = router;

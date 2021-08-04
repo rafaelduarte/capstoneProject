@@ -1,4 +1,4 @@
-const User = require("../model/user.model");
+const User = require("../model/user.model");    
 const {
   registerValidation,
   loginValidation,

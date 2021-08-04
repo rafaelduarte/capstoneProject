@@ -4,6 +4,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './account/login/login.component';
@@ -14,6 +15,9 @@ import { AuthenticationService } from './auth/authentication.service';
 import { UserProfileComponent } from './account/user-profile/user-profile.component';
 import { NavComponent } from './nav/nav.component';
 import { AuthGuard } from './auth/auth.guard';
+import { AnswerComponent } from './account/answer/answer.component';
+import { AskQuestionComponent } from './ask-question/ask-question.component';
+import { AuthInterceptorService } from './auth/auth-interceptor.service';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -24,14 +28,26 @@ const routes: Routes = [
     component: UserProfileComponent,
     canActivate: [AuthGuard],
   },
-  { path: 'askQuestion', component: QuestionComponent },
   {
     path: 'questions',
     component: QuestionComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: 'questions/:questionid',
     component: QuestionComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'questions/:questionid/giveAnswer',
+    component: AnswerComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: ':userid/askQuestion',
+    component: AskQuestionComponent,
+    canActivate: [AuthGuard],
+    canActivateChild: [AuthGuard],
   },
 ];
 
@@ -44,6 +60,8 @@ const routes: Routes = [
     QuestionComponent,
     UserProfileComponent,
     NavComponent,
+    AnswerComponent,
+    AskQuestionComponent,
   ],
   imports: [
     BrowserModule,
@@ -51,12 +69,18 @@ const routes: Routes = [
     FormsModule,
     ReactiveFormsModule,
     RouterModule.forRoot(routes),
+    FontAwesomeModule,
   ],
   providers: [
     AuthenticationService,
     { provide: JWT_OPTIONS, useValue: JWT_OPTIONS },
     JwtHelperService,
     AuthGuard,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptorService,
+      multi: true,
+    },
   ],
   bootstrap: [AppComponent],
 })

@@ -12,7 +12,6 @@ import { AuthenticationService } from 'src/app/auth/authentication.service';
 })
 export class LoginComponent implements OnInit {
   form!: FormGroup;
-  readonly API_URL = 'http://localhost:3000/api';
   constructor(
     private formBuilder: FormBuilder,
     private http: HttpClient,

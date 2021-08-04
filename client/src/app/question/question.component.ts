@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, ParamMap, Params } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
-import { questions } from '../models/questions.model';
+import { questions } from '../models/question.model';
 import { DataService } from '../services/data.service';
+import { faEdit } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-question',
@@ -10,7 +11,7 @@ import { DataService } from '../services/data.service';
   styleUrls: ['./question.component.css'],
 })
 export class QuestionComponent implements OnInit {
-  public questions!: questions[];
+  questions!: questions[];
   public isParam: boolean = false;
   public id: any;
   constructor(
@@ -18,21 +19,36 @@ export class QuestionComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute
   ) {}
+  faEdit = faEdit;
+  ngOnInit(): void {
+    //Check URL Parameter for ID
+    this.id = this.route.snapshot.paramMap.get('questionid');
+    if (this.id) {
+      this.isParam = true;
+      //API Calls
+      this.getQuestionById(this.id);
+    } else {
+      //API Calls
+      this.getAllQuestions();
+    }
 
-  public getQuestions() {
+    //Console Logs
+    //console.log(this.isParam);
+    //console.log(typeof this.questions);
+  }
+
+  private getAllQuestions() {
     this.dataService.getQuestions().then((data) => {
       this.questions = data;
     });
   }
-
-  ngOnInit(): void {
-    this.getQuestions();
-    this.id = this.route.snapshot.paramMap.get('questionid');
-
-    if (this.id) {
-      this.isParam = true;
-    }
-    console.log(this.isParam);
-    //console.log(this.getQuestions());
+  private getQuestionById(id: any) {
+    console.log('Sending GET request');
+    this.dataService.getSingleQuestion(id).then((data) => {
+      this.questions = data;
+      console.log();
+      console.log(data);
+    });
+    console.log('GET Request Sent');
   }
 }

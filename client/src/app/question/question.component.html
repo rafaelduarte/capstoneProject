@@ -4,7 +4,68 @@
 <!--  -->
 <!--  -->
 <div *ngIf="isParam">
-  <h1>Question Id Present</h1>
+  <div class="container">
+    <div class="blog-post mt-4">
+      <h2 class="blog-post-title">What is Lorem Ipsum?</h2>
+      <p class="blog-post-meta text-muted fs-6">
+        July 15, 2021 by <a [routerLink]="['/']">Munindra</a>
+      </p>
+      <hr />
+      <p>
+        Lorem Ipsum is simply dummy text of the printing and typesetting
+        industry. Lorem Ipsum has been the industry's standard dummy text ever
+        since the 1500s, when an unknown printer took a galley of type and
+        scrambled it to make a type specimen book. It has survived not only five
+        centuries, but also the leap into electronic typesetting, remaining
+        essentially unchanged. It was popularised in the 1960s with the release
+        of Letraset sheets containing Lorem Ipsum passages, and more recently
+        with desktop publishing software like Aldus PageMaker including versions
+        of Lorem Ipsum.
+      </p>
+      <hr />
+      <h3 class="pb-3 mb-4 border-bottom mx-auto">Answers</h3>
+      <div class="no-answers text-center my-5 p-lg-3">
+        <h3>No answers found</h3>
+        <button
+          type="button"
+          [routerLink]="['/questions/:questionid/giveAnswer']"
+          class="custom-button"
+        >
+          <fa-icon [icon]="faEdit"></fa-icon>
+          Answer
+        </button>
+      </div>
+      <hr />
+      <div class="answers">
+        <h5><a>Keval</a></h5>
+        <p class="text-muted">Answered on 2021 Jul 16</p>
+        <p>
+          Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.
+          Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget
+          lacinia odio sem nec elit. Morbi leo risus, porta ac consectetur ac,
+          vestibulum at eros. Cum sociis natoque penatibus et magnis dis
+          parturient montes, nascetur ridiculus mus. Aenean lacinia bibendum
+          nulla sed consectetur. Etiam porta sem malesuada magna mollis euismod.
+          Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum
+          nibh, ut fermentum massa justo sit amet risus.
+        </p>
+        <hr />
+        <h5><a>Jay</a></h5>
+        <p class="text-muted">Answered on 2021 Jul 17</p>
+        <p>
+          Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.
+          Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget
+          lacinia odio sem nec elit. Morbi leo risus, porta ac consectetur ac,
+          vestibulum at eros. Cum sociis natoque penatibus et magnis dis
+          parturient montes, nascetur ridiculus mus. Aenean lacinia bibendum
+          nulla sed consectetur. Etiam porta sem malesuada magna mollis euismod.
+          Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum
+          nibh, ut fermentum massa justo sit amet risus.
+        </p>
+        <hr />
+      </div>
+    </div>
+  </div>
 </div>
 <!--  -->
 <!--  -->
@@ -13,4 +74,25 @@
 <!--  -->
 <div *ngIf="!isParam">
   <h1>Showing All the Questions</h1>
+  <div class="col-lg-8" *ngFor="let question of questions">
+    <div class="card mb-4">
+      <div class="card-body">
+        <h5 class="card-title text-uppercase">
+          <a class="" routerLink="/questions/{{ question._id }}">{{
+            question.title
+          }}</a>
+        </h5>
+        <!-- <div *ngFor="let owner of Questions.owner"> -->
+        <!-- <h6 class="text-muted">{{ question.owner.name }}</h6> -->
+        <!-- </div> -->
+        <p class="card-text">{{ question.text }}</p>
+      </div>
+      <div class="card-footer text-muted">
+        Posted by -
+        <u
+          ><cite title="username">{{ question.owner.name }} </cite></u
+        >
+      </div>
+    </div>
+  </div>
 </div>

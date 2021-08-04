@@ -22,7 +22,10 @@ app.use((req, res, next) => {
     "GET, HEAD, POST, PUT, DELETE, OPTIONS"
   );
   res.setHeader("Access-Control-Allow-Credentials", "true");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "Origin, Content-Type, Authorization, auth-Token"
+  );
   next();
 });
 // app.use("/api", (req, res, next) => {
