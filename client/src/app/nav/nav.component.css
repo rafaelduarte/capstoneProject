@@ -1,0 +1,12 @@
+.dropdown-menu {
+  padding: 0;
+}
+
+.button-dropdown-item {
+  background-color: #f55c47;
+  color: #fff;
+}
+
+.dropdown-item {
+  padding: 0.8rem;
+}

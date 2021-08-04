@@ -1,0 +1,35 @@
+.search-box {
+  padding: 1rem;
+  border-bottom-left-radius: 28px;
+  border-top-left-radius: 28px;
+}
+
+input,
+button {
+  outline: none;
+  border: none;
+}
+
+.w-15 {
+  width: 15% !important;
+}
+
+.search-button {
+  padding: 1rem;
+  border-bottom-right-radius: 28px;
+  border-top-right-radius: 28px;
+  /* background-color: rgb(51, 51, 51); */
+  background: linear-gradient(to right, rgb(255, 126, 95), rgb(254, 180, 123));
+  color: #fff;
+  background-size: 200% auto;
+  transition: 1s;
+}
+
+button:hover {
+  background-position: right;
+}
+/* .search-button:hover {
+  transition: ease-in-out;
+  transition-duration: 2s;
+  background: linear-gradient(to right, rgb(255, 126, 95), rgb(254, 180, 123));
+} */

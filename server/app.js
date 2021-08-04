@@ -7,9 +7,36 @@ var logger = require("morgan");
 require("./model/db");
 
 var indexApi = require("./routes/index.route");
-var routesApi = require("./routes/user.route");
+var routesApi = require("./routes/routeApi");
 
-var app = express();
+var cors = require("cors");
+
+const app = express();
+
+//CORS
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "http://localhost:4200");
+  //res.setHeader("Access-Control-Allow-Headers", "*");
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET, HEAD, POST, PUT, DELETE, OPTIONS"
+  );
+  res.setHeader("Access-Control-Allow-Credentials", "true");
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "Origin, Content-Type, Authorization, auth-Token"
+  );
+  next();
+});
+// app.use("/api", (req, res, next) => {
+//   res.header("Access-Control-Allow-Origin", "http://localhost:4200");
+//   res.header(
+//     "Access-Control-Allow-Headers",
+//     "Origin, X-Requested-With, Content-Type, Accept"
+//   );
+//   res.header("Access-Control-Allow-Credentials", "true");
+//   next();
+// });
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));

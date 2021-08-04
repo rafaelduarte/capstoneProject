@@ -1,0 +1,22 @@
+h5 {
+  margin-bottom: 0.1rem;
+}
+
+.answer-button {
+  padding: 0.8rem 2rem;
+  border-radius: 28px;
+  /* background-color: rgb(51, 51, 51); */
+  background: linear-gradient(to right, rgb(254, 180, 123), rgb(255, 126, 95));
+  color: #fff;
+  background-size: 200% auto;
+  transition: 1s;
+}
+
+button {
+  outline: none;
+  border: none;
+}
+
+button:hover {
+  background-position: right;
+}
