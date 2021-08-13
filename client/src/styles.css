@@ -1,10 +1,48 @@
 /* You can add global styles to this file, and also import other style files */
 
-.custom-button {
-  padding: 1rem;
-  /* background-color: rgb(51, 51, 51); */
-  background: linear-gradient(to right, rgb(255, 126, 95), rgb(254, 180, 123));
+body {
+  background-color: #0c0d16;
+  color: #dbebfb !important;
+}
+
+a {
+  color: #572cd9;
+  transition: 0.4s;
+}
+
+a:hover {
+  color: #5126d2;
+}
+.btn-primary {
   color: #fff;
-  background-size: 200% auto;
-  transition: 1s;
+  background-color: #714cdf;
+  border-color: #714cdf;
+  transition: 0.6s;
+}
+
+.btn-primary:hover {
+  background-color: #5126d2;
+  border-color: #5126d2;
+}
+
+.bg-primary {
+  background-color: #714cdf !important;
+  color: #dbebfb !important;
+}
+
+.card {
+  background-color: #32334a;
+  border: none;
+}
+
+.form-control {
+  background-color: #28293e;
+  color: #adabc6 !important;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out,
+    -webkit-box-shadow 0.15s ease-in-out;
+}
+
+.form-control:focus {
+  background-color: #28293e;
+  color: #adabc6 !important;
 }

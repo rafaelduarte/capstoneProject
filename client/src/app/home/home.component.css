@@ -1,3 +1,17 @@
+.bg-containerDark {
+  background-color: #282a38;
+}
+
+a {
+  color: #dbebfb;
+  text-decoration: none;
+  transition: 0.4s;
+}
+
+a:hover {
+  color: #5cb7f3;
+}
+
 .search-box {
   padding: 1rem;
   border-bottom-left-radius: 28px;
@@ -19,7 +33,7 @@ button {
   border-bottom-right-radius: 28px;
   border-top-right-radius: 28px;
   /* background-color: rgb(51, 51, 51); */
-  background: linear-gradient(to right, rgb(255, 126, 95), rgb(254, 180, 123));
+  background: linear-gradient(to right, rgb(74, 0, 224), rgb(142, 45, 226));
   color: #fff;
   background-size: 200% auto;
   transition: 1s;

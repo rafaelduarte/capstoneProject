@@ -1,17 +1,14 @@
 <div class="container">
   <div class="row">
-    <div class="col-md-6">
-      <h1 class="form-sigin-heading">Create a new account in</h1>
-      <p class="lead">
-        Already a member? Please <a routerLink="/login">login</a>instead.
-      </p>
+    <div class="col-md-6 card p-5 mx-auto">
+      <h1 class="form-sigin-heading text-center mb-5">Create a new Account</h1>
       <form [formGroup]="form" (submit)="submit()">
         <div class="form-group">
-          <label for="name">Name</label>
+          <label for="name" class="mb-2">Name</label>
           <input
             formControlName="name"
             type="text"
-            class="form-control"
+            class="form-control mb-4"
             name="name"
             placeholder="Enter name"
             required
@@ -19,11 +16,11 @@
         </div>
 
         <div class="form-group">
-          <label for="email">Email Address</label>
+          <label for="email" class="mb-2">Email Address</label>
           <input
             formControlName="email"
             type="email"
-            class="form-control"
+            class="form-control mb-4"
             name="email"
             placeholder="Enter email"
             required
@@ -31,38 +28,41 @@
         </div>
 
         <div class="form-group">
-          <label for="username">Username</label>
+          <label for="username" class="mb-2">Username</label>
           <input
             formControlName="username"
             type="text"
-            class="form-control"
+            class="form-control mb-4"
             name="username"
             placeholder="Username"
             required
           />
         </div>
         <div class="form-group">
-          <label for="password">Password</label>
+          <label for="password" class="mb-2">Password</label>
           <input
             formControlName="password"
             type="password"
-            class="form-control"
+            class="form-control mb-4"
             name="password"
             placeholder="Password"
             required
           />
         </div>
         <div class="form-group">
-          <label for="bio">Personal Bio</label>
+          <label for="bio" class="mb-2">Personal Bio</label>
           <textarea
             formControlName="bio"
             type="text"
-            class="form-control"
+            class="form-control mb-4"
             name="bio"
             placeholder="Personal Bio"
             required
           ></textarea>
         </div>
+        <p class="lead">
+          Already a member? Please <a routerLink="/login">login</a> instead.
+        </p>
         <button type="submit" class="btn btn-primary">Sign up!</button>
       </form>
     </div>

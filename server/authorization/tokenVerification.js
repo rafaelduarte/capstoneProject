@@ -5,7 +5,7 @@ const User = require("../model/user.model");
 function authorization(req, res, next) {
   const token = req.header("auth-token");
   if (!token) return res.status(401).send("Access Denied");
-  console.log(token);
+  //console.log(token);
 
   try {
     const verified = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);

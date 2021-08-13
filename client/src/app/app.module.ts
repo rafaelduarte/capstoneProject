@@ -31,7 +31,6 @@ const routes: Routes = [
   {
     path: 'questions',
     component: QuestionComponent,
-    canActivate: [AuthGuard],
   },
   {
     path: 'questions/:questionid',
@@ -44,7 +43,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
-    path: ':userid/askQuestion',
+    path: 'askQuestion',
     component: AskQuestionComponent,
     canActivate: [AuthGuard],
     canActivateChild: [AuthGuard],
@@ -73,7 +72,7 @@ const routes: Routes = [
   ],
   providers: [
     AuthenticationService,
-    { provide: JWT_OPTIONS, useValue: JWT_OPTIONS },
+    { provide: JWT_OPTIONS, useValue: JWT_OPTIONS, multi: true },
     JwtHelperService,
     AuthGuard,
     {

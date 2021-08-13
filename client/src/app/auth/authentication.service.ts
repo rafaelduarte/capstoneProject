@@ -7,6 +7,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 
 import { User } from '../models/user.model';
 import { error } from '@angular/compiler/src/util';
+import { InterceptorSkipHeader } from './auth-interceptor.service';
 
 interface userDto {
   user: User;
@@ -21,7 +22,7 @@ export class AuthenticationService {
   private user$ = new Subject<User>();
   private server_route = 'http://localhost:3000';
 
-  private token!: string;
+  private token?: string;
   public isLoggedIn: boolean = false;
 
   constructor(
@@ -35,7 +36,11 @@ export class AuthenticationService {
   }
 
   public getToken() {
-    window.localStorage.getItem(this.TOKEN_KEY);
+    let tmpToken = window.localStorage.getItem(this.TOKEN_KEY);
+    if (tmpToken) {
+      this.token = tmpToken;
+      //console.log(typeof tmpToken);
+    }
     return this.token;
   }
 
@@ -51,26 +56,19 @@ export class AuthenticationService {
     const loginCredentials = { email, password };
     //console.log('login credentials', loginCredentials);
     return this.http
-      .post<userDto>(`${this.server_route}/api/users/login`, loginCredentials)
+      .post<userDto>(`${this.server_route}/api/users/login`, loginCredentials, {
+        headers: InterceptorSkipHeader,
+      })
       .pipe(
         switchMap(({ user, token }) => {
           this.clearAuthData();
           this.setUser(user);
           this.setToken(token);
-          //console.log('user found', user.username);
+          console.log('user found', user.name);
           //console.log('Token: ', token);
           this.isLoggedIn = true;
           return of(user);
         })
-        // catchError((err) => {
-        //   console.log(
-        //     'Your login details could not be verified. Please try again',
-        //     err
-        //   );
-        //   return throwError(
-        //     'Your login details could not be verified. Please try again'
-        //   );
-        // })
       )
       .subscribe(
         (res) => {
@@ -79,6 +77,24 @@ export class AuthenticationService {
         (err) => {
           console.log(err);
         }
+      );
+  }
+
+  public register(user: any) {
+    return this.http
+      .post<any>(this.server_route + '/users/register', user, {
+        headers: InterceptorSkipHeader,
+      })
+      .pipe(
+        switchMap((savedUser) => {
+          this.setUser(savedUser);
+          console.log('User registered successfully', savedUser);
+          return of(savedUser);
+        }),
+        catchError((e) => {
+          console.log('Server error occured', e);
+          return throwError('Registration failed please contact admin');
+        })
       );
   }
 
@@ -110,22 +126,6 @@ export class AuthenticationService {
     } else {
       return 'Please Sign In';
     }
-  }
-
-  public register(user: any) {
-    return this.http
-      .post<any>(this.server_route + '/users/register', user)
-      .pipe(
-        switchMap((savedUser) => {
-          this.setUser(savedUser);
-          //console.log('User registered successfully', savedUser);
-          return of(savedUser);
-        }),
-        catchError((e) => {
-          //console.log('Server error occured', e);
-          return throwError('Registration failed please contact admin');
-        })
-      );
   }
 
   //SignOut User

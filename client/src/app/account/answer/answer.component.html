@@ -1,1 +1,13 @@
-<p>answer works!</p>
+<h3 class="my-5">Answer the question</h3>
+<form [formGroup]="saveAnswerForm" (submit)="saveAnswer()">
+  <label for="text" class="form-label">Text</label>
+  <textarea
+    formControlName="text"
+    class="form-control mb-4"
+    name="text"
+    required
+    rows="10"
+    placeholder="Write down your answer in brief."
+  ></textarea>
+  <button type="submit" class="answer-button mb-2">Post your answer</button>
+</form>

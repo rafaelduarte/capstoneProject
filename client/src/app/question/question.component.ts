@@ -11,8 +11,10 @@ import { faEdit } from '@fortawesome/free-solid-svg-icons';
   styleUrls: ['./question.component.css'],
 })
 export class QuestionComponent implements OnInit {
-  questions!: questions[];
+  questions?: questions[];
+  question: any;
   public isParam: boolean = false;
+  public isAns: boolean = false;
   public id: any;
   constructor(
     private dataService: DataService,
@@ -43,12 +45,14 @@ export class QuestionComponent implements OnInit {
     });
   }
   private getQuestionById(id: any) {
-    console.log('Sending GET request');
+    //console.log('Sending GET request');
     this.dataService.getSingleQuestion(id).then((data) => {
-      this.questions = data;
-      console.log();
-      console.log(data);
+      this.question = data;
+      if (this.question.answers.length) {
+        this.isAns = true;
+      }
+      //console.log(this.question.answers);
+      //console.log(data);
     });
-    console.log('GET Request Sent');
   }
 }
