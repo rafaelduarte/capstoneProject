@@ -17,13 +17,18 @@ a:hover {
 }
 
 .answer-button {
-  padding: 0.8rem 2rem;
-  border-radius: 28px;
+  padding: 0.6rem 1.4rem;
+  border-radius: 0.2rem;
   /* background-color: rgb(51, 51, 51); */
   background: linear-gradient(to right, rgb(74, 0, 224), rgb(142, 45, 226));
   color: #fff;
   background-size: 200% auto;
   transition: 1s;
+}
+
+.border-radius {
+  padding: 0.8rem 2rem;
+  border-radius: 28px;
 }
 
 button {

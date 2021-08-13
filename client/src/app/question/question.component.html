@@ -16,13 +16,26 @@
         {{ question?.text }}
       </p>
       <hr />
-      <h3 class="pb-3 mb-4 border-bottom mx-auto">Answers</h3>
+      <div class="border-bottom pb-3 mb-4">
+        <h3 class="pb-3 mx-auto d-inline">Answers</h3>
+        <div class="d-inline ms-5" *ngIf="!isAnsByCurrentUser">
+          <button
+            type="button"
+            routerLink="/questions/{{ question?._id }}/giveAnswer"
+            class="answer-button"
+          >
+            <fa-icon [icon]="faEdit"></fa-icon>
+            Answer the question?
+          </button>
+        </div>
+      </div>
+
       <div *ngIf="!isAns" class="no-answers text-center my-5 p-lg-3">
-        <h3>No answers found</h3>
+        <h3 class="mb-3">No answers found</h3>
         <button
           type="button"
           routerLink="/questions/{{ question?._id }}/giveAnswer"
-          class="answer-button"
+          class="answer-button border-radius mb-4"
         >
           <fa-icon [icon]="faEdit"></fa-icon>
           Answer
@@ -30,17 +43,19 @@
         <hr />
       </div>
 
-      <div class="answers" *ngFor="let answer of question?.answers">
-        <h5>
-          <a>{{ answer.author.name }}</a>
-        </h5>
-        <p class="text-muted">
-          Answered on {{ answer.issued_On | date: "longDate" }}
-        </p>
-        <p>
-          {{ answer.text }}
-        </p>
-        <hr />
+      <div class="answers">
+        <div *ngFor="let answer of question?.answers">
+          <h5>
+            <a>{{ answer.author.name }}</a>
+          </h5>
+          <p class="text-muted">
+            Answered on {{ answer.issued_On | date: "longDate" }}
+          </p>
+          <p>
+            {{ answer.text }}
+          </p>
+          <hr />
+        </div>
       </div>
     </div>
   </div>
