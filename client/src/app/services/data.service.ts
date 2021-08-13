@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { questions } from '../models/question.model';
 import { map, switchMap } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { InterceptorSkipHeader } from '../auth/auth-interceptor.service';
 
 @Injectable({
   providedIn: 'root',
@@ -16,9 +17,10 @@ export class DataService {
 
   public getQuestions(): Promise<questions[]> {
     return this.http
-      .get(this.GET_QUESTION_API)
+      .get(this.GET_QUESTION_API, { headers: InterceptorSkipHeader })
       .toPromise()
-      .then((res) => res as questions[]);
+      .then((res) => res as questions[])
+      .catch(this.handleError);
   }
 
   public getSingleQuestion(questionid: string): Promise<questions[]> {
@@ -28,22 +30,28 @@ export class DataService {
       .then((res) => res as questions[]);
   }
 
-  public postQuestion(
-    userid: string,
-    title: string,
-    text: string
-  ): Observable<any> {
-    const postData = new FormData();
-    postData.append('title', title);
-    postData.append('text', text);
+  public postQuestion(userid: string, data: any): Observable<any> {
+    // const postData = new FormData();
+    // postData.set('title', title);
+    // postData.set('text', text);
+
+    console.log(data);
     return this.http.post<any>(
       `${this.SERVER_API}/api/${userid}/askQuestion`,
-      postData
+      data
     );
-    // return this.http
-    //   .post<questions>(`${this.SERVER_API}/api/${userid}/askQuestion`, postData)
-    //   .subscribe((data) => {
-    //     console.log(data);
-    //   });
+  }
+
+  public saveAnswer(questionid: string, data: any): Observable<any> {
+    console.log(data);
+    return this.http.post<any>(
+      `${this.SERVER_API}/api/questions/${questionid}/giveAnswer`,
+      data
+    );
+  }
+
+  private handleError(error: any): Promise<any> {
+    console.error('Something has gone wrong', error);
+    return Promise.reject(error.message || error);
   }
 }

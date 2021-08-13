@@ -27,6 +27,7 @@ router
 router
   .route("/:userid/askQuestion")
   .post(authorization.authorization, ctrlQuestion.createQuestion);
+
 //Fetch ALL the QUESTIONS
 //Get QUESTION Route
 router

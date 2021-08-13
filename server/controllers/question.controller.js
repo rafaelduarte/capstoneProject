@@ -33,6 +33,10 @@ const questionAndAnswer = (req, res) => {
   const questionid = req.params.questionid;
   Question.findOne({ _id: questionid })
     .populate("owner", "email name")
+    .populate({
+      path: "answers",
+      populate: { path: "author", select: "name" },
+    })
     .exec((err, question) => {
       if (err) {
         return res.status(400).send({ message: getErrorMessage(err) });
@@ -65,19 +69,17 @@ const createQuestion = async (req, res) => {
   question.owner = req.user;
 
   try {
-    await question.save().then(
-      User.findByIdAndUpdate(
-        req.params.userid,
-        { $push: { questions: question._id } },
-        { new: true, useFindAndModify: false }
-      ).exec((err, userData) => {
-        if (err) {
-          console.error(err);
-        } else {
-          res.send(userData);
-        }
-      })
-    );
+    await question
+      .save(
+        User.findByIdAndUpdate(
+          req.params.userid,
+          { $push: { questions: question._id } },
+          { new: true, useFindAndModify: false }
+        )
+      )
+      .then((data) => {
+        res.send(data);
+      });
   } catch (err) {
     console.error(err);
   }

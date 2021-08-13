@@ -29,8 +29,8 @@ export class RegisterComponent implements OnInit {
   }
 
   submit(): void {
-    console.log(this.form.getRawValue());
-    this.authService.register(this.form.getRawValue());
+    //console.log(this.form.getRawValue());
+    this.authService.register(this.form.value);
     this.router.navigateByUrl('/login');
   }
 }

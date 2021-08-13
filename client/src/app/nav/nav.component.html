@@ -1,7 +1,9 @@
-<nav class="navbar navbar-expand-lg sticky-top navbar-light bg-light">
+<nav
+  class="navbar navbar-expand-lg sticky-top navbar-dark bg-themeDark text-white"
+>
   <div class="container">
     <a
-      class="navbar-brand"
+      class="navbar-brand text-light"
       [routerLink]="['/']"
       routerLinkActive="router-link-active"
       >QandA
@@ -16,14 +18,24 @@
     <div class="collapse navbar-collapse" id="navbarMenu">
       <ul class="navbar-nav ms-auto">
         <li class="nav-item">
-          <a class="nav-link" routerLink="/">Home</a>
+          <button
+            class="ask-button me-2"
+            type="button"
+            *ngIf="authService.isAuthenticated()"
+            routerLink="askQuestion"
+          >
+            Ask Question
+          </button>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/questions">Questions</a>
+          <a class="nav-link text-light" routerLink="/">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-light" routerLink="/questions">Questions</a>
         </li>
         <li class="nav-item">
           <a
-            class="nav-link"
+            class="nav-link text-light"
             *ngIf="!authService.isAuthenticated()"
             routerLink="/login"
             >Sign in</a
@@ -32,7 +44,7 @@
 
         <li class="nav-item dropdown">
           <a
-            class="nav-link dropdown-toggle"
+            class="nav-link dropdown-toggle text-light"
             id="navbarDropdown"
             *ngIf="authService.isAuthenticated()"
             role="button"
@@ -41,7 +53,7 @@
           </a>
           <div class="dropdown-menu">
             <a
-              class="dropdown-item my-auto"
+              class="dropdown-item my-auto text-light"
               *ngIf="authService.isAuthenticated()"
               routerLink="/profile"
               >Profile</a

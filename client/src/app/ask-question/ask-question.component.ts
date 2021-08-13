@@ -17,7 +17,8 @@ export class AskQuestionComponent implements OnInit {
     private formBuilder: FormBuilder,
     private router: Router,
     private dataService: DataService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private authService: AuthenticationService
   ) {}
 
   ngOnInit(): void {
@@ -25,24 +26,18 @@ export class AskQuestionComponent implements OnInit {
       title: '',
       text: '',
     });
-
-    this.id = this.route.snapshot.paramMap.get('userid');
+    this.id = this.authService.getUserId();
     if (this.id) {
       this.isParam = true;
     }
   }
 
   askQuestion(): void {
-    let title = this.askQuestionForm.controls['title'].value;
-    let text = this.askQuestionForm.controls['text'].value;
-    if (title && text) {
-      this.dataService.postQuestion(this.id, title, title).subscribe((res) => {
+    this.dataService
+      .postQuestion(this.id, this.askQuestionForm.value)
+      .subscribe((res) => {
         console.log(res);
       });
-    }
-  }
-
-  buttonWorking(): void {
-    console.log('Button Click');
+    this.router.navigateByUrl('/questions');
   }
 }

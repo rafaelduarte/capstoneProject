@@ -4,6 +4,7 @@ import { switchMap } from 'rxjs/operators';
 import { questions } from '../models/question.model';
 import { DataService } from '../services/data.service';
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
+import { AuthenticationService } from '../auth/authentication.service';
 
 @Component({
   selector: 'app-question',
@@ -11,13 +12,17 @@ import { faEdit } from '@fortawesome/free-solid-svg-icons';
   styleUrls: ['./question.component.css'],
 })
 export class QuestionComponent implements OnInit {
-  questions!: questions[];
+  questions?: questions[];
+  question: any;
   public isParam: boolean = false;
+  public isAns: boolean = false;
+  public isAnsByCurrentUser: boolean = false;
   public id: any;
   constructor(
     private dataService: DataService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private authService: AuthenticationService
   ) {}
   faEdit = faEdit;
   ngOnInit(): void {
@@ -43,12 +48,24 @@ export class QuestionComponent implements OnInit {
     });
   }
   private getQuestionById(id: any) {
-    console.log('Sending GET request');
+    //console.log('Sending GET request');
     this.dataService.getSingleQuestion(id).then((data) => {
-      this.questions = data;
-      console.log();
-      console.log(data);
+      this.question = data;
+      if (this.question.answers.length) {
+        this.isAns = true;
+      }
+
+      if (this.isAns) {
+        let answerUsers = this.question.answers.find((id: any) => {
+          return (id.author._id = this.authService.getUserId);
+        });
+        if (answerUsers) {
+          this.isAnsByCurrentUser = true;
+        }
+      }
+
+      console.log(this.isAnsByCurrentUser);
+      //console.log(data);
     });
-    console.log('GET Request Sent');
   }
 }

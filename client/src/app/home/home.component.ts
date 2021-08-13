@@ -21,7 +21,7 @@ export class HomeComponent implements OnInit {
       this.Questions = data;
       // var user = data.map((resp) => resp.owner);
       // var names = Object.keys(user).map((key:any) => user[key].name);
-      console.log(this.Questions);
+      //console.log(this.Questions);
     });
   }
 
