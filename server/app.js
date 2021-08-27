@@ -15,11 +15,11 @@ const app = express();
 
 //CORS
 app.use((req, res, next) => {
-  //res.setHeader("Access-Control-Allow-Origin", "http://localhost:4200");
-  res.setHeader(
-    "Access-Control-Allow-Origin",
-    "https://question-and-answers.netlify.app/"
-  );
+  res.setHeader("Access-Control-Allow-Origin", "http://localhost:4200");
+  // res.setHeader(
+  //   "Access-Control-Allow-Origin",
+  //   "https://question-and-answers.netlify.app/"
+  // );
   res.setHeader(
     "Access-Control-Allow-Methods",
     "GET, HEAD, POST, PUT, DELETE, OPTIONS"
@@ -32,13 +32,6 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(function (req, res, next) {
-  //Enabling CORS
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, x-client-key, x-client-token, x-client-secret, Authorization");
-    next();
-  });
 // app.use("/api", (req, res, next) => {
 //   res.header("Access-Control-Allow-Origin", "http://localhost:4200");
 //   res.header(

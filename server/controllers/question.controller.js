@@ -70,17 +70,19 @@ const createQuestion = async (req, res) => {
   question.owner = req.user;
 
   try {
-    await question
-      .save(
-        User.findByIdAndUpdate(
-          req.params.userid,
-          { $push: { questions: question._id } },
-          { new: true, useFindAndModify: false }
-        )
-      )
-      .then((data) => {
-        res.send(data);
-      });
+    await question.save().then(
+      User.findByIdAndUpdate(
+        req.params.userid,
+        { $push: { questions: question._id } },
+        { new: true, useFindAndModify: false }
+      ).exec((err, data) => {
+        if (err) {
+          console.log(err);
+        } else {
+          res.send(data);
+        }
+      })
+    );
   } catch (err) {
     console.error(err);
   }

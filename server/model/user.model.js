@@ -17,7 +17,7 @@ var userSchema = new mongoose.Schema({
     required: true,
     min: 6,
   },
-  date: {
+  created_date: {
     type: Date,
     default: Date.now,
   },

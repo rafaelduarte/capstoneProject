@@ -55,6 +55,11 @@ export class QuestionComponent implements OnInit {
         this.isAns = true;
       }
 
+      if (this.question.owner._id == this.authService.getUserId()) {
+        this.isAnsByCurrentUser = true;
+        console.log(true);
+      }
+
       if (this.isAns) {
         let answerUsers = this.question.answers.find((id: any) => {
           return (id.author._id = this.authService.getUserId);
