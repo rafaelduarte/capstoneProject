@@ -23,8 +23,10 @@ const registerModule = async (req, res) => {
   user.name = req.body.name;
   user.email = req.body.email;
   user.setPassword(req.body.password);
+  // New Fields
   user.username = req.body.username;
   user.bio = req.body.bio;
+  user.date_of_birth = req.body.dob;
   try {
     const savedUser = await user.save();
     res.send(savedUser);

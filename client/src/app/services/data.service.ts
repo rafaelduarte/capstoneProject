@@ -10,7 +10,7 @@ import { InterceptorSkipHeader } from '../auth/auth-interceptor.service';
   providedIn: 'root',
 })
 export class DataService {
-  private SERVER_API = 'https://q-ans.herokuapp.com/';
+  private SERVER_API = 'http://localhost:3000';
   private GET_QUESTION_API = `${this.SERVER_API}/api/questions`;
 
   constructor(private http: HttpClient, private router: Router) {}

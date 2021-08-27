@@ -32,14 +32,16 @@
 
       <div *ngIf="!isAns" class="no-answers text-center my-5 p-lg-3">
         <h3 class="mb-3">No answers found</h3>
-        <button
-          type="button"
-          routerLink="/questions/{{ question?._id }}/giveAnswer"
-          class="answer-button border-radius mb-4"
-        >
-          <fa-icon [icon]="faEdit"></fa-icon>
-          Answer
-        </button>
+        <div *ngIf="!isAnsByCurrentUser">
+          <button
+            type="button"
+            routerLink="/questions/{{ question?._id }}/giveAnswer"
+            class="answer-button border-radius mb-4"
+          >
+            <fa-icon [icon]="faEdit"></fa-icon>
+            Answer
+          </button>
+        </div>
         <hr />
       </div>
 
