@@ -15,14 +15,14 @@ const app = express();
 
 //CORS
 app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "http://localhost:4200");
+  res.setHeader("Access-Control-Allow-Origin", "*");
   // res.setHeader(
   //   "Access-Control-Allow-Origin",
   //   "https://question-and-answers.netlify.app/"
   // );
   res.setHeader(
     "Access-Control-Allow-Methods",
-    "GET, HEAD, POST, PUT, DELETE, OPTIONS"
+    "GET, POST, PUT, PATCH, POST, DELETE, OPTIONS"
   );
   res.setHeader("Access-Control-Allow-Credentials", "true");
   res.setHeader(
@@ -31,16 +31,6 @@ app.use((req, res, next) => {
   );
   next();
 });
-
-// app.use("/api", (req, res, next) => {
-//   res.header("Access-Control-Allow-Origin", "http://localhost:4200");
-//   res.header(
-//     "Access-Control-Allow-Headers",
-//     "Origin, X-Requested-With, Content-Type, Accept"
-//   );
-//   res.header("Access-Control-Allow-Credentials", "true");
-//   next();
-// });
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));

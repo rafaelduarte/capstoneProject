@@ -14,6 +14,15 @@ interface userDto {
   token: string;
 }
 
+interface newUser {
+  email: string;
+  name: string;
+  password: string;
+  username: string;
+  bio: string;
+  date_of_birth: string;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -24,6 +33,7 @@ export class AuthenticationService {
 
   private token?: string;
   public isLoggedIn: boolean = false;
+  public isRegistered: boolean = false;
 
   constructor(
     private http: HttpClient,
@@ -52,7 +62,7 @@ export class AuthenticationService {
     window.localStorage.removeItem(this.TOKEN_KEY);
   }
 
-  public login(email: string, password: string) {
+  public login(email: string, password: string, rememberMe?: boolean) {
     const loginCredentials = { email, password };
     //console.log('login credentials', loginCredentials);
     return this.http
@@ -64,8 +74,16 @@ export class AuthenticationService {
           this.clearAuthData();
           this.setUser(user);
           this.setToken(token);
-          console.log('user found', user.name);
+          //console.log('This is authservice remmberMe: ', rememberMe);
+          //console.log('user found', user.name);
           //console.log('Token: ', token);
+
+          const now = new Date();
+          now.setDate(now.getDate() + 1);
+          if (rememberMe) {
+            const expiryDate = now.getTime() / 1000;
+            console.log('this is the expiry date: ', expiryDate);
+          }
           this.isLoggedIn = true;
           return of(user);
         })
@@ -81,19 +99,39 @@ export class AuthenticationService {
   }
 
   public register(user: any) {
+    console.log(user);
+    // return this.http
+    //   .post<newUser>(`${this.server_route}/users/register`, user, {
+    //     headers: InterceptorSkipHeader,
+    //   })
+    //   .pipe(
+    //     switchMap((savedUser) => {
+    //       this.setUser(savedUser);
+    //       console.log('this is savedUser: ', savedUser);
+    //       console.log('User registered successfully', savedUser);
+    //       this.isRegistered = true;
+    //       return of(savedUser);
+    //     }),
+    //     catchError((e) => {
+    //       console.log('Server error occured', e);
+    //       return throwError('Registration failed please contact admin');
+    //     })
+    //   );
     return this.http
-      .post<any>(this.server_route + '/users/register', user, {
+      .post(`${this.server_route}/api/users/register`, user, {
         headers: InterceptorSkipHeader,
       })
       .pipe(
         switchMap((savedUser) => {
-          this.setUser(savedUser);
-          console.log('User registered successfully', savedUser);
+          //console.log('This is savedUser', savedUser);
+          //console.log('This is the type of savedUser', typeof savedUser);
+          this.isRegistered = true;
+          //console.log('Is user registered yet? - ', this.isRegistered);
           return of(savedUser);
         }),
         catchError((e) => {
-          console.log('Server error occured', e);
-          return throwError('Registration failed please contact admin');
+          console.log('Server Error log: ', e.error);
+          return throwError('Registration failed, please contact admin');
         })
       );
   }
@@ -105,7 +143,7 @@ export class AuthenticationService {
       //console.log(JSON.parse(payload).name);
       return JSON.parse(payload);
     } else {
-      return 'Please Sign IN';
+      return 'Please Sign In';
     }
   }
 

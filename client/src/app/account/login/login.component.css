@@ -16,3 +16,8 @@ button {
 button:hover {
   background-position: right;
 }
+
+a {
+  text-decoration: underline !important;
+  cursor: pointer;
+}
