@@ -34,6 +34,7 @@ export class AuthenticationService {
   private token?: string;
   public isLoggedIn: boolean = false;
   public isRegistered: boolean = false;
+  public error: string = '';
 
   constructor(
     private http: HttpClient,
@@ -78,45 +79,20 @@ export class AuthenticationService {
           //console.log('user found', user.name);
           //console.log('Token: ', token);
 
-          const now = new Date();
-          now.setDate(now.getDate() + 1);
-          if (rememberMe) {
-            const expiryDate = now.getTime() / 1000;
-            console.log('this is the expiry date: ', expiryDate);
-          }
+          // const now = new Date();
+          // now.setDate(now.getDate() + 1);
+          // if (rememberMe) {
+          //   const expiryDate = now.getTime() / 1000;
+          //   console.log('this is the expiry date: ', expiryDate);
+          // }
           this.isLoggedIn = true;
           return of(user);
         })
-      )
-      .subscribe(
-        (res) => {
-          this.getUserName();
-        },
-        (err) => {
-          console.log(err);
-        }
       );
   }
 
   public register(user: any) {
     console.log(user);
-    // return this.http
-    //   .post<newUser>(`${this.server_route}/users/register`, user, {
-    //     headers: InterceptorSkipHeader,
-    //   })
-    //   .pipe(
-    //     switchMap((savedUser) => {
-    //       this.setUser(savedUser);
-    //       console.log('this is savedUser: ', savedUser);
-    //       console.log('User registered successfully', savedUser);
-    //       this.isRegistered = true;
-    //       return of(savedUser);
-    //     }),
-    //     catchError((e) => {
-    //       console.log('Server error occured', e);
-    //       return throwError('Registration failed please contact admin');
-    //     })
-    //   );
     return this.http
       .post(`${this.server_route}/api/users/register`, user, {
         headers: InterceptorSkipHeader,
@@ -130,7 +106,8 @@ export class AuthenticationService {
           return of(savedUser);
         }),
         catchError((e) => {
-          console.log('Server Error log: ', e.error);
+          this.error = e.error;
+          console.log('Server Error log: ', this.error);
           return throwError('Registration failed, please contact admin');
         })
       );

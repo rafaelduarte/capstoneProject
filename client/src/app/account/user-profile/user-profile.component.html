@@ -1,1 +1,84 @@
-<p>user-profile works!</p>
+<h1 class="my-5">Profile</h1>
+<div class="user-profile">
+  <div class="row">
+    <div class="col-md-4">
+      <div class="profile-img">
+        <img src="../assets/images/IMG_0403.jpg" alt="/" />
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="profile-head">
+        <div class="bg-profile">
+          <h4>{{ currentUser?.name }}</h4>
+          <!-- <h6 class="text-muted">Bio</h6> -->
+          <h5>
+            {{ currentUser?.bio }}
+          </h5>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-2">
+      <a class="profile-edit-btn">Edit Profile</a>
+    </div>
+  </div>
+  <div class="row mt-4">
+    <div class="col-md-4">
+      <div class="bg-profile">
+        <div class="profile-data-counter">
+          <p>Stats</p>
+          <span>Questions asked - {{ totalQuestions }}</span
+          ><br />
+          <span>Answers given - {{ totalAnswers }}</span>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-8">
+      <div class="bg-profile">
+        <div class="tab-content profile-tab" id="myTabContent">
+          <div
+            class="tab-pane fade show active"
+            id="home"
+            role="tabpanel"
+            aria-labelledby="home-tab"
+          >
+            <div class="row">
+              <div class="col-md-4">
+                <label>Username</label>
+              </div>
+              <div class="col-md-4">
+                <p>{{ currentUser?.username }}</p>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-4">
+                <label>Name</label>
+              </div>
+              <div class="col-md-4">
+                <p>{{ currentUser?.name }}</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-4">
+              <label>Email</label>
+            </div>
+            <div class="col-md-4">
+              <p>{{ currentUser?.email }}</p>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-4">
+              <label>Date of Birth</label>
+            </div>
+            <div class="col-md-4">
+              <p>{{ currentUser?.date_of_birth | date: "MMMM d, y" }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -7,9 +7,9 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
-import { windowWhen } from 'rxjs/operators';
 import { AuthenticationService } from 'src/app/auth/authentication.service';
 import { CustomvalidationService } from 'src/app/services/customvalidation.service';
+import { RegisterComponent } from '../register/register.component';
 
 @Component({
   selector: 'app-login',
@@ -18,12 +18,15 @@ import { CustomvalidationService } from 'src/app/services/customvalidation.servi
 })
 export class LoginComponent implements OnInit {
   form!: FormGroup;
+  isPasswordIncorrect: boolean = false;
+  isEmailIncorrect: boolean = false;
   constructor(
     private formBuilder: FormBuilder,
     private http: HttpClient,
     private router: Router,
     private authService: AuthenticationService,
-    private customValidator: CustomvalidationService
+    private customValidator: CustomvalidationService,
+    private registerComponent: RegisterComponent
   ) {}
 
   ngOnInit(): void {
@@ -44,12 +47,20 @@ export class LoginComponent implements OnInit {
     let rememberMe = this.form.controls['rememberMe'].value;
     console.log('This is log for remember ME', rememberMe);
     if (email && password) {
-      if (rememberMe) {
-        this.authService.login(email, password, rememberMe);
-        console.warn('User pressed remember ME');
-      } else {
-        this.authService.login(email, password);
-      }
+      this.authService.login(email, password).subscribe((error) => {
+        if (
+          this.registerComponent.stringSearch(this.authService.error, 'email')
+        ) {
+          this.isEmailIncorrect = true;
+        } else if (
+          this.registerComponent.stringSearch(
+            this.authService.error,
+            'password'
+          )
+        ) {
+          this.isPasswordIncorrect = true;
+        }
+      });
 
       this.router.navigateByUrl('/');
     }

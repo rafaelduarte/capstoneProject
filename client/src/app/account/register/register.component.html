@@ -39,6 +39,9 @@
             "
             >Username is required</span
           >
+          <span class="text-danger" *ngIf="userNameExists"
+            >Username already Exists</span
+          >
         </div>
         <div class="form-group">
           <label for="email" class="mb-2">Email Address</label>
@@ -63,6 +66,8 @@
               registerFormControl.email.errors?.email
             "
             >Enter a valid email Address</span
+          ><span class="text-danger" *ngIf="emailExists"
+            >Email already Exists</span
           >
         </div>
         <div class="form-group">
@@ -82,6 +87,15 @@
               registerFormControl.password.errors?.required
             "
             >Password is required</span
+          >
+          <span
+            class="text-danger"
+            *ngIf="
+              registerFormControl.password.touched &&
+              registerFormControl.password.errors?.invalidPassword
+            "
+            >Password should have minimum 8 characters, at least 1 uppercase
+            letter, 1 lowercase letter and 1 number</span
           >
         </div>
         <div class="form-group">
@@ -108,6 +122,17 @@
             "
             >Password doesnot match</span
           >
+        </div>
+        <div class="form-group">
+          <label for="dob" class="mb-2">Date of Birth</label>
+          <input
+            type="text"
+            class="form-control mb-4"
+            formControlName="dob"
+            style="width: 150px"
+            name="dob"
+            placeholder="YYYY-MM-DD"
+          />
         </div>
         <div class="form-group">
           <label for="bio" class="mb-2">Personal Bio</label>

@@ -1,8 +1,12 @@
 export interface answers {
   _id: string;
   text: string;
-  author: string;
+  author: author;
   issued_On: number;
+}
+
+export interface author {
+  _id: string;
 }
 
 export interface owner {

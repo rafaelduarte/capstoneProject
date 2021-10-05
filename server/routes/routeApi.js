@@ -12,7 +12,9 @@ router.route("/users/register").post(ctrlUser.registerModule);
 //Login User Route
 router.route("/users/login").post(ctrlUser.loginModule);
 //Profile USER Route
-router.route("/profile").get(authorization.authorization, ctrlProfile.profile);
+router
+  .route("/:userid/profile")
+  .get(authorization.authorization, ctrlProfile.profile);
 
 //QUESTIONS API
 //User is asking a QUESTION
@@ -44,5 +46,10 @@ router
 router
   .route("/questions/:questionid/giveAnswer")
   .post(authorization.authorization, ctrlAnswer.createAnswer);
+
+//Fetch all answers
+router
+  .route("/answers")
+  .get(authorization.authorization, ctrlAnswer.fetchAnswers);
 
 module.exports = router;

@@ -8,6 +8,7 @@ body {
 a {
   color: #572cd9;
   transition: 0.4s;
+  cursor: pointer;
 }
 
 a:hover {
