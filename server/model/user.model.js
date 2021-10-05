@@ -58,8 +58,8 @@ userSchema.methods.validPassword = function (password) {
   return this.hash === hash;
 };
 
-//Jwt Generation
-userSchema.methods.generateJwt = function () {
+// Jwt Generation
+userSchema.methods.generateJwt = function (expiryDate) {
   var expiry = new Date();
   expiry.setDate(expiry.getDate() + 1);
 

@@ -18,7 +18,7 @@ router
 
 //Profile USER Route
 router
-  .route("/profile")
+  .route("/:userid/profile")
   .get(authorization.authorization, ctrlProfile.profile);
 
 //QUESTIONS API
@@ -52,5 +52,10 @@ router
 router
   .route("/questions/:questionid/giveAnswer")
   .post(authorization.authorization, ctrlAnswer.createAnswer);
+
+//Fetch all answers
+router
+  .route("/answers")
+  .get(authorization.authorization, ctrlAnswer.fetchAnswers);
 
 module.exports = router;

@@ -8,15 +8,15 @@ const {
 const registerModule = async (req, res) => {
   //Validation
   const { error } = registerValidation(req.body);
-  if (error) return res.status(401).json(error.details[0].message);
+  if (error) return res.status(422).json(error.details[0].message);
 
   //Check if email(user) already exists in Database
   const emailExist = await User.findOne({ email: req.body.email });
-  if (emailExist) return res.status(400).send("Email already exists");
+  if (emailExist) return res.status(422).send("Email already exists");
 
   //Check if username(user) already exists in Database
   const usernameExist = await User.findOne({ username: req.body.username });
-  if (usernameExist) return res.status(400).send("Username already Exists");
+  if (usernameExist) return res.status(422).send("Username already Exists");
 
   //Create a new user
   const user = new User();
@@ -41,17 +41,17 @@ const renderRegisterModule = () => {};
 const loginModule = async (req, res) => {
   //Validation
   const { error } = loginValidation(req.body);
-  if (error) return res.status(400).send(error.details[0].message);
+  if (error) return res.status(422).send(error.details[0].message);
 
   //Check if email(user) exists in Database
   await User.findOne({ email: req.body.email }, function (err, user) {
     //Are ther eany server/database error
     if (err) return res.send(err);
     //Is Email corect?
-    if (!user) return res.status(401).send("Email or password is incorrect");
+    if (!user) return res.status(422).send("Email or password is incorrect");
     //Is password correct?
     if (!user.validPassword(req.body.password))
-      return res.status(400).send("Password incorrect");
+      return res.status(422).send("Password incorrect");
 
     //Assigning JWT token
     var token = user.generateJwt();

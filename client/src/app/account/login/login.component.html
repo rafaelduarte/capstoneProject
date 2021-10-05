@@ -12,7 +12,21 @@
             name="email"
             placeholder="Enter email"
             required
-          />
+          /><span
+            class="text-danger"
+            *ngIf="
+              loginFormControls.email.touched &&
+              loginFormControls.email.errors?.required
+            "
+            >Enter email</span
+          ><span
+            class="text-danger"
+            *ngIf="
+              loginFormControls.email.touched &&
+              loginFormControls.email.errors?.email
+            "
+            >Enter a valid email</span
+          >
         </div>
 
         <div class="form-group">
@@ -25,9 +39,28 @@
             placeholder="Password"
             required
           />
+          <span
+            class="text-danger"
+            *ngIf="
+              loginFormControls.password.touched &&
+              loginFormControls.password.errors?.required
+            "
+            >Enter password</span
+          >
+        </div>
+        <div class="form-check">
+          <input
+            type="checkbox"
+            value="true"
+            formControlName="rememberMe"
+            class="mb-3 form-check-input"
+            name="rememberMe"
+          /><label for="rememberMe" class="form-check-label"
+            >Remember me?</label
+          >
         </div>
         <p class="lead">
-          Not a member? Please <a routerLink="/register">register</a>instead.
+          Not a member? Please <a routerLink="/register">register</a> instead.
         </p>
         <button type="submit" class="btn sign-button">Sign In!</button>
       </form>

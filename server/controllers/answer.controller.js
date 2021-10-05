@@ -26,4 +26,16 @@ const createAnswer = async (req, res) => {
   }
 };
 
-module.exports = { createAnswer };
+//FETCH Answers
+const fetchAnswers = async (req, res) => {
+  Answer.find()
+    .populate("author", "_id")
+    .exec((err, answers) => {
+      if (err) {
+        return res.status(400).send({ message: getErrorMessage(err) });
+      } else {
+        res.json(answers);
+      }
+    });
+};
+module.exports = { createAnswer, fetchAnswers };

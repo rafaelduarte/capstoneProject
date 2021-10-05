@@ -13,20 +13,15 @@
             placeholder="Enter name"
             required
           />
+          <span
+            class="text-danger"
+            *ngIf="
+              registerFormControl.name.touched &&
+              registerFormControl.name.errors?.required
+            "
+            >Name is required</span
+          >
         </div>
-
-        <div class="form-group">
-          <label for="email" class="mb-2">Email Address</label>
-          <input
-            formControlName="email"
-            type="email"
-            class="form-control mb-4"
-            name="email"
-            placeholder="Enter email"
-            required
-          />
-        </div>
-
         <div class="form-group">
           <label for="username" class="mb-2">Username</label>
           <input
@@ -36,7 +31,44 @@
             name="username"
             placeholder="Username"
             required
-          />
+          /><span
+            class="text-danger"
+            *ngIf="
+              registerFormControl.username.touched &&
+              registerFormControl.username.errors?.required
+            "
+            >Username is required</span
+          >
+          <span class="text-danger" *ngIf="userNameExists"
+            >Username already Exists</span
+          >
+        </div>
+        <div class="form-group">
+          <label for="email" class="mb-2">Email Address</label>
+          <input
+            formControlName="email"
+            type="email"
+            class="form-control mb-4"
+            name="email"
+            placeholder="Enter email"
+            required
+          /><span
+            class="text-danger"
+            *ngIf="
+              registerFormControl.email.touched &&
+              registerFormControl.email.errors?.required
+            "
+            >Enter an email Address</span
+          ><span
+            class="text-danger"
+            *ngIf="
+              registerFormControl.email.touched &&
+              registerFormControl.email.errors?.email
+            "
+            >Enter a valid email Address</span
+          ><span class="text-danger" *ngIf="emailExists"
+            >Email already Exists</span
+          >
         </div>
         <div class="form-group">
           <label for="password" class="mb-2">Password</label>
@@ -47,6 +79,59 @@
             name="password"
             placeholder="Password"
             required
+          />
+          <span
+            class="text-danger"
+            *ngIf="
+              registerFormControl.password.touched &&
+              registerFormControl.password.errors?.required
+            "
+            >Password is required</span
+          >
+          <span
+            class="text-danger"
+            *ngIf="
+              registerFormControl.password.touched &&
+              registerFormControl.password.errors?.invalidPassword
+            "
+            >Password should have minimum 8 characters, at least 1 uppercase
+            letter, 1 lowercase letter and 1 number</span
+          >
+        </div>
+        <div class="form-group">
+          <label for="confirmPassword" class="mb-2">Confirm Password</label>
+          <input
+            formControlName="confirmPassword"
+            type="password"
+            class="form-control mb-4"
+            name="confirmPassword"
+            placeholder="Confirm Password"
+            required
+          /><span
+            class="text-danger"
+            *ngIf="
+              registerFormControl.confirmPassword.touched &&
+              registerFormControl.confirmPassword.errors?.required
+            "
+            >Password is required</span
+          ><span
+            class="text-danger"
+            *ngIf="
+              registerFormControl.confirmPassword.touched &&
+              registerFormControl.confirmPassword.errors?.passwordMismatch
+            "
+            >Password doesnot match</span
+          >
+        </div>
+        <div class="form-group">
+          <label for="dob" class="mb-2">Date of Birth</label>
+          <input
+            type="text"
+            class="form-control mb-4"
+            formControlName="dob"
+            style="width: 150px"
+            name="dob"
+            placeholder="YYYY-MM-DD"
           />
         </div>
         <div class="form-group">
