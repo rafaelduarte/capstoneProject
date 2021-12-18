@@ -10,7 +10,10 @@ import { DataService } from '../services/data.service';
 })
 export class HomeComponent implements OnInit {
   public Questions?: questions[];
+  public question: any;
   user!: string;
+  public answersQuestionId: Array<String> = [];
+  public totalAnswers: any = 0;
   constructor(
     private dataService: DataService,
     private authservice: AuthenticationService
@@ -28,6 +31,5 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.getQuestions();
     this.user = this.authservice.getUserId();
-    //console.log(this.user);
   }
 }

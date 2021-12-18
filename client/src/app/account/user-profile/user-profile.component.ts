@@ -1,10 +1,14 @@
 import { Component, OnInit } from '@angular/core';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  FormControl,
+} from '@angular/forms';
 import { AuthenticationService } from 'src/app/auth/authentication.service';
-import { User } from 'src/app/models/user.model';
+import { CustomvalidationService } from 'src/app/services/customvalidation.service';
 import { DataService } from 'src/app/services/data.service';
-import { answers } from 'src/app/models/question.model';
-import { ConnectableObservable } from 'rxjs';
-import { formatDate } from '@angular/common';
+import { User } from 'src/app/models/user.model';
 
 @Component({
   selector: 'app-user-profile',
@@ -15,20 +19,31 @@ export class UserProfileComponent implements OnInit {
   currentUser: any;
   totalQuestions: any = 0;
   totalAnswers: any = 0;
+  isEdit = false;
+  form!: FormGroup;
   constructor(
     private authService: AuthenticationService,
-    private dataService: DataService
+    private dataService: DataService,
+    private formBuilder: FormBuilder,
+    private customValidator: CustomvalidationService
   ) {}
 
   ngOnInit(): void {
     this.getUser(this.authService.getUserId());
+
+    this.form = this.formBuilder.group({
+      name: [{ value: '' }, Validators.required],
+      email: [{ value: '' }, [Validators.required, Validators.email]],
+      username: ['', Validators.required],
+      dob: ['', Validators.required],
+      bio: ['', Validators.required],
+    });
   }
 
   getUser(id: any) {
     this.dataService.getUser(id).subscribe(
       (user) => {
         this.currentUser = user;
-
         this.countFields(this.currentUser, 'questions');
         this.countFields(this.currentUser, 'answer');
       },
@@ -70,5 +85,18 @@ export class UserProfileComponent implements OnInit {
         //console.log(answersUserId);
       });
     }
+  }
+
+  submit(): void {
+    this.dataService
+      .updateUser(this.authService.getUserId(), this.form.value)
+      .subscribe(
+        (data) => {
+          console.log(data);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
   }
 }

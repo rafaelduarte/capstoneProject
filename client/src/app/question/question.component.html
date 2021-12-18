@@ -6,15 +6,38 @@
 <div *ngIf="isParam">
   <div class="container">
     <div class="blog-post mt-4">
-      <h2 class="blog-post-title">{{ question?.title }}</h2>
-      <p class="blog-post-meta text-muted fs-6">
-        {{ question?.issued_On | date: "longDate" }} by
-        <a [routerLink]="['/']">{{ question?.owner?.name }}</a>
-      </p>
-      <hr />
+      <div class="row">
+        <div class="col-md-8">
+          <h2 class="blog-post-title">{{ question?.title }}</h2>
+          <p class="blog-post-meta text-muted fs-6">
+            {{ question?.issued_On | date: "longDate" }} by
+            <a [routerLink]="['/']">{{ question?.owner?.name }}</a>
+          </p>
+        </div>
+        <div class="col-md-4"></div>
+      </div>
       <p>
         {{ question?.text }}
       </p>
+      <div class="row">
+        <div class="col-md-2" *ngIf="!isQuesByCurrentUser">
+          <button class="d-inline me-2">
+            <fa-icon
+              *ngIf="!isLiked"
+              class="farHeart"
+              [icon]="farHeart"
+              (click)="likeButton(question._id)"
+            ></fa-icon>
+            <fa-icon
+              *ngIf="isLikedByUser"
+              class="fasHeart"
+              [icon]="fasHeart"
+              (click)="unlikeButton(question._id)"
+            ></fa-icon>
+          </button>
+          <div class="d-inline">{{ numberOfLikes }} likes</div>
+        </div>
+      </div>
       <hr />
       <div class="border-bottom pb-3 mb-4">
         <h3 class="pb-3 mx-auto d-inline">Answers</h3>
@@ -47,16 +70,29 @@
 
       <div class="answers">
         <div *ngFor="let answer of question?.answers">
-          <h5>
-            <a>{{ answer.author.name }}</a>
-          </h5>
-          <p class="text-muted">
-            Answered on {{ answer.issued_On | date: "longDate" }}
-          </p>
-          <p>
-            {{ answer.text }}
-          </p>
-          <hr />
+          <div class="card mt-2 border">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-8">
+                  <div class="card-title fw-bold">
+                    Answered on {{ answer.issued_On | date: "longDate" }}
+                  </div>
+                  <p class="text-muted">by {{ answer.author.name }}</p>
+                </div>
+                <div class="col-md-4 text-end">
+                  <button
+                    class="btn btn-primary"
+                    routerLink="/questions/editQuestion/{{ question._id }}"
+                  >
+                    Edit
+                  </button>
+                </div>
+              </div>
+              <p>
+                {{ answer.text }}
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -68,25 +104,76 @@
 <!--  -->
 <!--  -->
 <div *ngIf="!isParam">
-  <h1 class="my-5">Explore</h1>
-  <div class="col-lg-8" *ngFor="let question of questions">
-    <div class="card mb-4">
-      <div class="card-body">
-        <h5 class="card-title mb-2 text-uppercase">
-          <a class="" routerLink="/questions/{{ question._id }}">{{
-            question.title
-          }}</a>
-        </h5>
-        <!-- <div *ngFor="let owner of Questions.owner"> -->
-        <!-- <h6 class="text-muted">{{ question.owner.name }}</h6> -->
-        <!-- </div> -->
-        <p class="card-text">{{ question.text }}</p>
-      </div>
-      <div class="card-footer bg-primary text-muted">
-        Posted by -
-        <u
-          ><cite title="username">{{ question.owner.name }} </cite></u
+  <div class="container-fluid">
+    <div class="row content">
+      <div class="col-sm-2 sidenav px-5">
+        <button
+          class="ask-button me-2"
+          type="button"
+          routerLink="../askQuestion"
         >
+          ASK A QUESITON
+        </button>
+      </div>
+      <div class="col-sm-8 m-3">
+        <div class="card">
+          <h3 class="mt-2 mb-4">All Questions</h3>
+        </div>
+        <div class="m-2 border-bottom" *ngFor="let question of questions">
+          <div class="card mt-2 border">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-8">
+                  <h5 class="card-title fw-bold">
+                    <a class="" routerLink="/questions/{{ question._id }}">
+                      {{ question.title }}
+                    </a>
+                  </h5>
+                  <p class="card-text muted overflow-information">
+                    {{ question.text }}
+                  </p>
+                </div>
+                <div class="col-md-4">
+                  <div class="row">
+                    <div class="col">
+                      <a class="" routerLink="/questions/{{ question._id }}">
+                        <div class="answers-bg">
+                          <span class="answers">
+                            {{ question.answers | commaSeperator }}
+                          </span>
+                        </div>
+                      </a>
+                    </div>
+                    <div class="col">
+                      <div class="counter-bg">
+                        <span class="answers">{{ question.likes }}</span>
+                      </div>
+                    </div>
+                    <div class="col">
+                      <div class="counter-bg">
+                        <span class="answers">{{ question.dislikes }}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col mt-2">answers</div>
+                    <div class="col mt-2 ps-4">likes</div>
+                    <div class="col mt-2">dislikes</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card-footer text-muted mt-4">
+              <strong
+                ><cite title="username">{{ question.owner.name }}</cite></strong
+              >
+              <span>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Asked on
+                {{ question.issued_On | date: "longDate" }}</span
+              >
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>

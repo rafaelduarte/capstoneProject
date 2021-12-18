@@ -19,6 +19,9 @@ import { AuthGuard } from './auth/auth.guard';
 import { AnswerComponent } from './account/answer/answer.component';
 import { AskQuestionComponent } from './ask-question/ask-question.component';
 import { AuthInterceptorService } from './auth/auth-interceptor.service';
+import { CommaSeperatorPipe } from './comma-seperator.pipe';
+import { AboutUsComponent } from './about-us/about-us/about-us.component';
+import { EditQuestionComponent } from './edit-question/edit-question.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -29,6 +32,7 @@ const routes: Routes = [
     component: UserProfileComponent,
     canActivate: [AuthGuard],
   },
+  { path: 'about-us', component: AboutUsComponent },
   {
     path: 'questions',
     component: QuestionComponent,
@@ -49,6 +53,11 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     canActivateChild: [AuthGuard],
   },
+  {
+    path: 'questions/editQuestion/:questionid',
+    component: EditQuestionComponent,
+    canActivate: [AuthGuard],
+  },
 ];
 
 @NgModule({
@@ -62,6 +71,9 @@ const routes: Routes = [
     NavComponent,
     AnswerComponent,
     AskQuestionComponent,
+    CommaSeperatorPipe,
+    AboutUsComponent,
+    EditQuestionComponent,
   ],
   imports: [
     BrowserModule,
@@ -72,6 +84,7 @@ const routes: Routes = [
     FontAwesomeModule,
   ],
   providers: [
+    RegisterComponent,
     AuthenticationService,
     { provide: JWT_OPTIONS, useValue: JWT_OPTIONS, multi: true },
     JwtHelperService,

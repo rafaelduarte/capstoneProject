@@ -1,3 +1,4 @@
+const { number } = require("joi");
 const mongoose = require("mongoose");
 
 const questionSchema = new mongoose.Schema({
@@ -17,6 +18,8 @@ const questionSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  likes: { type: Number, default: 0 },
+  likedBy: { type: Array },
   answers: [
     {
       type: mongoose.Schema.Types.ObjectId,

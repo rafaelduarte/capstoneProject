@@ -1,15 +1,19 @@
 .user-profile {
-  padding: 2%;
   margin-top: 2%;
   margin-bottom: 2%;
 }
 
 .profile-img img {
-  width: 14rem;
-  height: 14rem;
+  width: 18rem;
+  height: 18rem;
   object-fit: cover;
 }
 
+.bio-text {
+  background: #f2f2f2;
+  height: 8rem;
+  border-radius: 12px;
+}
 
 .nav-tabs {
   border: none;
@@ -27,9 +31,4 @@
 .nav-tabs .nav-link.active {
   border: none;
   border-bottom: 2px solid;
-}
-
-.bg-profile {
-  background-color: #28293e;
-  padding: 1.2rem;
 }

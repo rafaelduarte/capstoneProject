@@ -22,4 +22,9 @@ export interface questions {
   owner: owner;
   issued_On: number;
   answers: answers;
+  totalAnswers: number;
+  likes: number;
+  likedBy: string;
+  dislikes: number;
+  dislikedBy: string;
 }

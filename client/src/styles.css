@@ -1,18 +1,14 @@
 /* You can add global styles to this file, and also import other style files */
 
-body {
-  background-color: #0c0d16;
-  color: #dbebfb !important;
-}
-
 a {
-  color: #572cd9;
-  transition: 0.4s;
+  transition: 0.5s !important;
   cursor: pointer;
+  color: #932bee !important;
 }
 
 a:hover {
-  color: #5126d2;
+  color: #4805d0 !important;
+  transition: 0.5s !important;
 }
 .btn-primary {
   color: #fff;
@@ -32,18 +28,15 @@ a:hover {
 }
 
 .card {
-  background-color: #32334a;
   border: none;
 }
 
 .form-control {
-  background-color: #28293e;
-  color: #adabc6 !important;
+  color: #1c1c1c !important;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out,
     -webkit-box-shadow 0.15s ease-in-out;
 }
 
 .form-control:focus {
-  background-color: #28293e;
   color: #adabc6 !important;
 }
