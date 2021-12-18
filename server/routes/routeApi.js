@@ -58,4 +58,19 @@ router
   .route("/answers")
   .get(authorization.authorization, ctrlAnswer.fetchAnswers);
 
+//Like Quesiton
+router
+  .route("/:questionId/likeQuestion")
+  .put(authorization.authorization, ctrlQuestion.likeQuestion);
+
+//DislikeQuestion
+router
+  .route("/:questionId/unlikeQuestion")
+  .put(authorization.authorization, ctrlQuestion.unlikeQuestion);
+
+//Update User Profile
+router
+  .route("/:userid/updateUser")
+  .put(authorization.authorization, ctrlUser.updateUserModule);
+
 module.exports = router;

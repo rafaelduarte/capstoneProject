@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from '../auth/authentication.service';
 import { User } from '../models/user.model';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-nav',
@@ -9,6 +10,6 @@ import { User } from '../models/user.model';
 })
 export class NavComponent implements OnInit {
   constructor(public authService: AuthenticationService) {}
-
+  faSearch = faSearch;
   ngOnInit(): void {}
 }

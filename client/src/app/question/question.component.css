@@ -13,7 +13,7 @@ a {
 }
 
 a:hover {
-  color: #5cb7f3;
+  color: #5cb7f3 !important;
 }
 
 .answer-button {
@@ -34,8 +34,85 @@ a:hover {
 button {
   outline: none;
   border: none;
+  background: none;
 }
 
+.ask-button {
+  margin: auto 0;
+  width: 100%;
+  font-size: 1rem;
+  padding: 1rem;
+  border-radius: 0.2rem;
+  /* background-color: rgb(51, 51, 51); */
+  background: linear-gradient(to right, #4a00e0, #8e2de2);
+  color: #fff;
+  background-size: 200% auto;
+  transition: 1s;
+}
 button:hover {
   background-position: right;
+}
+
+button .farHeart:hover {
+  color: #4a00e0;
+}
+
+button .fasHeart {
+  color: #4a00e0;
+}
+
+.card-title {
+  margin: 0 !important;
+}
+
+.sidenav {
+  padding-top: 20px;
+  background-color: #f1f1f1;
+}
+
+.content {
+  height: 100%;
+}
+
+.card-footer {
+  border: none !important;
+}
+
+.answers-bg {
+  background-color: #414141;
+  color: #fff;
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  display: inline-block;
+  text-align: center;
+  transition-duration: 1s;
+}
+.answers {
+  line-height: 50px;
+}
+
+.answers-bg:hover {
+  background-color: #5126d2;
+  transition-duration: 1s;
+  transition: cubic-bezier();
+}
+
+.counter-bg {
+  background-color: #fff;
+  color: #282a38;
+  border: 0.01rem #838383 solid;
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  display: inline-block;
+  text-align: center;
+}
+
+.overflow-information {
+  overflow: hidden;
+  display: inline-block;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 560px;
 }

@@ -43,8 +43,8 @@ button {
 .ask-button {
   margin: auto 0;
   font-size: 0.8rem;
-  padding: 0.5rem;
-  border-radius: 0.2rem;
+  padding: 0.6rem 0.8rem;
+  border-radius: 0 0.6rem 0.6rem 0;
   /* background-color: rgb(51, 51, 51); */
   background: linear-gradient(to right, rgb(74, 0, 224), rgb(142, 45, 226));
   color: #fff;
@@ -54,4 +54,17 @@ button {
 
 button:hover {
   background-position: right;
+}
+
+.search {
+  width: 420px;
+}
+
+.fa-search {
+  color: #9ca3af;
+}
+
+.form-control {
+  text-indent: 8px;
+  border-radius: 0.6rem 0 0 0.6rem;
 }

@@ -34,8 +34,6 @@ const registerModule = async (req, res) => {
     res.status(400).send(err);
   }
 };
-//Render Create User Module
-const renderRegisterModule = () => {};
 
 //Login User Module
 const loginModule = async (req, res) => {
@@ -60,12 +58,43 @@ const loginModule = async (req, res) => {
     //res.cookie("token", token, { httpOnly: true }).send(token);
   });
 };
-//Render Login Module
-const renderLoginModule = () => {};
+
+const updateUserModule = async (req, res) => {
+  await User.findOne({ _id: req.params.userid }, (err, user) => {
+    if (err) {
+      res.json({ success: false, message: err });
+    } else {
+      if (!user) {
+        res.json({ sucess: false, message: "User not found" });
+      } else {
+        if (user._id != req.user._id) {
+          res.json({ sucess: false, message: "Not the same user" });
+        } else {
+          user.name = req.body.name;
+          user.email = req.body.email;
+          // New Fields
+          user.username = req.body.username;
+          user.bio = req.body.bio;
+          user.date_of_birth = req.body.dob;
+          user.save({ validateBeforeSave: false }, (err) => {
+            if (err) {
+              res.json({
+                sucess: false,
+                message: "Something went wrong..!!",
+                error: err,
+              });
+            } else {
+              res.json({ success: true, message: "User updated", User: user });
+            }
+          });
+        }
+      }
+    }
+  });
+};
 
 module.exports = {
   registerModule,
-  renderRegisterModule,
   loginModule,
-  renderLoginModule,
+  updateUserModule,
 };

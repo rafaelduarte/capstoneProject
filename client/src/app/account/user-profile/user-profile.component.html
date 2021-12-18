@@ -1,84 +1,187 @@
-<h1 class="my-5">Profile</h1>
-<div class="user-profile">
-  <div class="row">
-    <div class="col-md-4">
-      <div class="profile-img">
-        <img src="../assets/images/IMG_0403.jpg" alt="/" />
-      </div>
-    </div>
-    <div class="col-md-6">
-      <div class="profile-head">
-        <div class="bg-profile">
-          <h4>{{ currentUser?.name }}</h4>
-          <!-- <h6 class="text-muted">Bio</h6> -->
-          <h5>
-            {{ currentUser?.bio }}
-          </h5>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-2">
-      <a class="profile-edit-btn">Edit Profile</a>
-    </div>
-  </div>
-  <div class="row mt-4">
-    <div class="col-md-4">
-      <div class="bg-profile">
-        <div class="profile-data-counter">
-          <p>Stats</p>
-          <span>Questions asked - {{ totalQuestions }}</span
-          ><br />
-          <span>Answers given - {{ totalAnswers }}</span>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-8">
-      <div class="bg-profile">
-        <div class="tab-content profile-tab" id="myTabContent">
-          <div
-            class="tab-pane fade show active"
-            id="home"
-            role="tabpanel"
-            aria-labelledby="home-tab"
-          >
-            <div class="row">
-              <div class="col-md-4">
-                <label>Username</label>
-              </div>
-              <div class="col-md-4">
-                <p>{{ currentUser?.username }}</p>
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="col-md-4">
-                <label>Name</label>
-              </div>
-              <div class="col-md-4">
-                <p>{{ currentUser?.name }}</p>
-              </div>
-            </div>
+<div class="container">
+  <h1 class="my-5">Profile</h1>
+  <div class="user-profile">
+    <div *ngIf="!isEdit">
+      <div class="row">
+        <div class="col-md-4">
+          <div class="profile-img">
+            <img src="../assets/images/IMG_0403.jpg" alt="/" />
           </div>
-
-          <div class="row">
-            <div class="col-md-4">
-              <label>Email</label>
-            </div>
-            <div class="col-md-4">
-              <p>{{ currentUser?.email }}</p>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-md-4">
-              <label>Date of Birth</label>
-            </div>
-            <div class="col-md-4">
-              <p>{{ currentUser?.date_of_birth | date: "MMMM d, y" }}</p>
+        </div>
+        <div class="col-md-6">
+          <div class="profile-head">
+            <div class="bg-profile">
+              <h4>{{ currentUser?.name }}</h4>
+              <!-- <h6 class="text-muted">Bio</h6> -->
+              <h5 class="mt-4">
+                {{ currentUser?.bio }}
+              </h5>
             </div>
           </div>
         </div>
+        <div class="col-md-2">
+          <a class="profile-edit-btn">Edit Profile</a>
+        </div>
+      </div>
+      <div class="row mt-4">
+        <div class="col-md-4">
+          <div class="bg-profile">
+            <div class="profile-data-counter">
+              <p>Stats</p>
+              <span>Questions asked - {{ totalQuestions }}</span
+              ><br />
+              <span>Answers given - {{ totalAnswers }}</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-8">
+          <div class="bg-profile">
+            <div class="tab-content profile-tab" id="myTabContent">
+              <div
+                class="tab-pane fade show active"
+                id="home"
+                role="tabpanel"
+                aria-labelledby="home-tab"
+              >
+                <div class="row">
+                  <p>User Details</p>
+                  <div class="col-md-4">
+                    <label>Username</label>
+                  </div>
+                  <div class="col-md-4">
+                    <p>{{ currentUser?.username }}</p>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-4">
+                    <label>Name</label>
+                  </div>
+                  <div class="col-md-4">
+                    <p>{{ currentUser?.name }}</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-4">
+                  <label>Email</label>
+                </div>
+                <div class="col-md-4">
+                  <p>{{ currentUser?.email }}</p>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-4">
+                  <label>Date of Birth</label>
+                </div>
+                <div class="col-md-4">
+                  <p>{{ currentUser?.date_of_birth | date: "MMMM d, y" }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
+    <!--  -->
+    <!-- isEdit = TRUE -->
+    <!--  -->
+    <div *ngIf="isEdit">
+      <form [formGroup]="form" (submit)="submit()">
+        <div class="row">
+          <div class="col-md-4">
+            <div class="profile-img">
+              <img src="../assets/images/IMG_0403.jpg" alt="/" />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="profile-head">
+              <div class="bg-profile">
+                <label class="text-muted">Name</label>
+                <input
+                  value="{{ currentUser?.name }}"
+                  name="userFullName"
+                  formControlName="name"
+                  type="text"
+                  class="form-control"
+                  placeholder="Enter your name here..."
+                />
+                <label class="text-muted mt-4">Bio</label>
+                <textarea
+                  value="{{ currentUser?.bio }}"
+                  name="userBio"
+                  placeholder="Enter your bio here..."
+                  formControlName="bio"
+                  type="text"
+                  class="form-control"
+                  rows="6"
+                ></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-4">
+          <div class="col-md-4"></div>
+          <div class="col-md-8">
+            <div class="bg-profile">
+              <div class="tab-content profile-tab" id="myTabContent">
+                <div class="row">
+                  <p><strong>User Details</strong></p>
+                  <div class="col-md-6">
+                    <label class="mt-2">Username</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      value="{{ currentUser?.username }}"
+                      placeholder="Enter your username here..."
+                      formControlName="username"
+                      name="userName"
+                    />
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <label class="mt-2">Email</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      value="{{ currentUser?.email }}"
+                      placeholder="Enter your email here..."
+                      formControlName="email"
+                      name="userEmail"
+                    />
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <label class="mt-2">Date of Birth</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      value="{{
+                        currentUser?.date_of_birth | date: 'MMMM, d, y'
+                      }}"
+                      placeholder="Enter date of birth here..."
+                      formControlName="dob"
+                      name="userDob"
+                    />
+                  </div>
+                </div>
+                <button type="submit" class="mt-3 btn btn-primary">
+                  Submit
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <!--  -->
+    <!-- END -->
+    <!--  -->
   </div>
 </div>
+
+<div *ngIf="isEdit"></div>

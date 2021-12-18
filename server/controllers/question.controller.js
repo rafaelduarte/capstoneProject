@@ -109,10 +109,115 @@ const editQuestion = async (req, res) => {
   }
 };
 
+const likeQuestion = async (req, res) => {
+  try {
+    await Question.findOne({ _id: req.params.questionId }).exec(
+      (err, question) => {
+        if (err) {
+          res.json({ success: false, message: err });
+        } else {
+          if (!question) {
+            res.json({ success: false, message: "No question found." });
+          } else {
+            if (question.owner == req.user._id) {
+              res.json({
+                success: false,
+                message: "Question owner cannot like their own questions.",
+              });
+            } else {
+              if (question.likedBy.includes(req.user._id)) {
+                res.json({
+                  success: false,
+                  message: "You already liked this Question.",
+                });
+              } else {
+                question.likes++;
+                question.likedBy.push(req.user._id);
+                question.save((err) => {
+                  if (err) {
+                    res.json({
+                      sucess: false,
+                      message: "Something went wrong",
+                      err: err,
+                    });
+                  } else {
+                    res.json({ sucess: true, message: "Question Liked..!!" });
+                  }
+                });
+              }
+            }
+          }
+        }
+      }
+    );
+  } catch (err) {
+    res.json({ message: err });
+  }
+};
+
+const unlikeQuestion = async (req, res) => {
+  try {
+    await Question.findOne({ _id: req.params.questionId }).exec(
+      (err, question) => {
+        if (err) {
+          res.json({ success: false, message: err });
+        } else {
+          if (!question) {
+            res.json({ success: false, message: "No question found." });
+          } else {
+            if (question.owner == req.user._id) {
+              res.json({
+                success: false,
+                message: "Question owner cannot dislike their own questions.",
+              });
+            } else {
+              if (question.likedBy.includes(req.user._id)) {
+                const arrayIndex = question.likedBy.indexOf(req.user._id);
+                question.likedBy.splice(arrayIndex, 1);
+                question.likes--;
+                question.save((err) => {
+                  if (err) {
+                    res.json({
+                      success: true,
+                      message: "Something went wrong..!!",
+                      error: err,
+                    });
+                  } else {
+                    res.json({ success: true, message: "Question unliked." });
+                  }
+                });
+              } else {
+                question.likes--;
+                question.save((err) => {
+                  if (err) {
+                    res.json({
+                      sucess: false,
+                      message: "Something went wrong",
+                    });
+                  } else {
+                    res.json({
+                      sucess: true,
+                      message: "Question unliked..!!",
+                    });
+                  }
+                });
+              }
+            }
+          }
+        }
+      }
+    );
+  } catch (err) {
+    res.json({ message: err });
+  }
+};
+
 module.exports = {
   questionAndAnswer,
   getQuestions,
   userQuestions,
   createQuestion,
   editQuestion,
+  likeQuestion,
+  unlikeQuestion,
 };

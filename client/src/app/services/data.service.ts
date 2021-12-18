@@ -80,4 +80,24 @@ export class DataService {
     console.error('Something has gone wrong', error);
     return Promise.reject(error.message || error);
   }
+
+  public likeQuestion(questionId: String) {
+    const data = { id: questionId };
+    return this.http.put(
+      `${this.SERVER_API}/api/${questionId}/likeQuestion`,
+      data
+    );
+  }
+
+  public unlikeQuestion(questionId: String) {
+    const data = { id: questionId };
+    return this.http.put(
+      `${this.SERVER_API}/api/${questionId}/unlikeQuestion`,
+      data
+    );
+  }
+
+  public updateUser(userid: string, user: User) {
+    return this.http.put(`${this.SERVER_API}/api/${userid}/updateUser`, user);
+  }
 }

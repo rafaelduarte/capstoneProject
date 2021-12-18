@@ -1,73 +1,73 @@
-<nav
-  class="navbar navbar-expand-lg sticky-top navbar-dark bg-themeDark text-white"
->
-  <div class="container">
-    <a
-      class="navbar-brand text-light"
-      [routerLink]="['/']"
-      routerLinkActive="router-link-active"
-      >QandA
-    </a>
-    <button
-      class="navbar-toggler"
-      data-toggle="collapse"
-      data-target="#navbarMenu"
-    >
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarMenu">
-      <ul class="navbar-nav ms-auto">
-        <li class="nav-item">
-          <button
-            class="ask-button me-2"
-            type="button"
-            *ngIf="authService.isAuthenticated()"
-            routerLink="askQuestion"
-          >
-            Ask Question
-          </button>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-light" routerLink="/">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-light" routerLink="/questions">Questions</a>
-        </li>
-        <li class="nav-item">
-          <a
-            class="nav-link text-light"
-            *ngIf="!authService.isAuthenticated()"
-            routerLink="/login"
-            >Sign in</a
-          >
-        </li>
+<nav class="navbar navbar-expand-lg sticky-top navbar-dark bg-dark text-white">
+  <a
+    class="navbar-brand text-light me-5 ps-5 pe-5"
+    [routerLink]="['/']"
+    routerLinkActive="router-link-active"
+    ><strong>QA</strong>Verse
+  </a>
+  <button
+    class="navbar-toggler"
+    data-toggle="collapse"
+    data-target="#navbarMenu"
+  >
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse px-5" id="navbarMenu">
+    <form class="d-flex ms-5 search">
+      <input
+        class="form-control"
+        type="search"
+        placeholder="Enter Keywords"
+        aria-label="Search"
+      />
+      <button class="btn ask-button" type="submit">
+        <fa-icon class="fa-search" [icon]="faSearch"></fa-icon>
+      </button>
+    </form>
+    <ul class="navbar-nav ms-auto">
+      <li class="nav-item">
+        <a class="nav-link text-light" routerLink="/">Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-light" routerLink="/questions">Questions</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-light" routerLink="/about-us">About Us</a>
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link text-light"
+          *ngIf="!authService.isAuthenticated()"
+          routerLink="/login"
+          >Sign in</a
+        >
+      </li>
 
-        <li class="nav-item dropdown">
+      <li class="nav-item dropdown">
+        <a
+          class="nav-link dropdown-toggle text-light"
+          id="navbarDropdown"
+          *ngIf="authService.isAuthenticated()"
+          role="button"
+          data-toggle="dropdown"
+          >Hi, {{ authService.getUserName() }}
+        </a>
+        <div class="dropdown-menu">
           <a
-            class="nav-link dropdown-toggle text-light"
-            id="navbarDropdown"
+            class="dropdown-item my-auto text-light"
             *ngIf="authService.isAuthenticated()"
-            role="button"
-            data-toggle="dropdown"
-            >Hi, {{ authService.getUserName() }}
-          </a>
-          <div class="dropdown-menu">
-            <a
-              class="dropdown-item my-auto text-light"
-              *ngIf="authService.isAuthenticated()"
-              routerLink="/profile"
-              >Profile</a
-            >
-            <button
-              class="dropdown-item button-dropdown-item my-auto"
-              *ngIf="authService.isAuthenticated()"
-              (click)="authService.logout()"
-            >
-              Logout
-            </button>
-          </div>
-        </li>
-      </ul>
-    </div>
+            routerLink="/profile"
+            >Profile</a
+          >
+          <button
+            class="dropdown-item button-dropdown-item my-auto"
+            *ngIf="authService.isAuthenticated()"
+            (click)="authService.logout()"
+          >
+            Logout
+          </button>
+        </div>
+      </li>
+    </ul>
   </div>
 </nav>
