@@ -100,4 +100,11 @@ export class DataService {
   public updateUser(userid: string, user: User) {
     return this.http.put(`${this.SERVER_API}/api/${userid}/updateUser`, user);
   }
+
+  public editQuestion(questionId: string, data: any) {
+    return this.http.put(
+      `${this.SERVER_API}/api/${questionId}/editQuestion`,
+      data
+    );
+  }
 }

@@ -9,8 +9,8 @@ import { DataService } from '../services/data.service';
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit {
-  public Questions?: questions[];
-  public question: any;
+  public Questions!: questions[];
+  public ModifyQuestion!: any[];
   user!: string;
   public answersQuestionId: Array<String> = [];
   public totalAnswers: any = 0;
@@ -22,9 +22,10 @@ export class HomeComponent implements OnInit {
   private getQuestions() {
     this.dataService.getQuestions().then((data) => {
       this.Questions = data;
-      // var user = data.map((resp) => resp.owner);
-      // var names = Object.keys(user).map((key:any) => user[key].name);
-      //console.log(this.Questions);
+
+      this.Questions.sort((a, b) => {
+        return b.likes - a.likes;
+      });
     });
   }
 

@@ -5,6 +5,7 @@ import { DataService } from '../services/data.service';
 import { faEdit, faHeart as fasHeart } from '@fortawesome/free-solid-svg-icons';
 import { faHeart as farHeart } from '@fortawesome/free-regular-svg-icons';
 import { AuthenticationService } from '../auth/authentication.service';
+import { coerceNumberProperty } from '@angular/cdk/coercion';
 
 @Component({
   selector: 'app-question',
@@ -30,16 +31,24 @@ export class QuestionComponent implements OnInit {
 
   public totalAnswers = 0;
   public numberOfLikes = 0;
+  isEdit: boolean = false;
 
   constructor(
     private dataService: DataService,
     private route: ActivatedRoute,
     private authService: AuthenticationService
-  ) {}
+  ) {
+    this.route.paramMap.subscribe((routeParam) => {
+      this.id = routeParam.get('questionid');
+      //console.log(routeParam);
+      this.ngOnInit();
+    });
+  }
 
   ngOnInit(): void {
     //Check URL Parameter for ID
-    this.id = this.route.snapshot.paramMap.get('questionid');
+    this.booleanFalse();
+    //console.log(this.id);
     if (this.id) {
       this.isParam = true;
       //API Calls
@@ -48,6 +57,16 @@ export class QuestionComponent implements OnInit {
       //API Calls
       this.getAllQuestions();
     }
+  }
+
+  booleanFalse() {
+    this.isAns = false;
+    this.isLiked = false;
+    this.isLikedByUser = false;
+    this.isAnsByCurrentUser = false;
+    this.isQuesByCurrentUser = false;
+    this.totalAnswers = 0;
+    this.numberOfLikes = 0;
   }
 
   private getAllQuestions() {
@@ -104,5 +123,11 @@ export class QuestionComponent implements OnInit {
       this.isLikedByUser = false;
       this.numberOfLikes--;
     });
+  }
+
+  editToggle() {
+    console.log();
+    this.isEdit = true;
+    this.getQuestionById(this.id);
   }
 }

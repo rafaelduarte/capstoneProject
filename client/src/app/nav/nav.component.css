@@ -52,6 +52,10 @@ button {
   transition: 1s;
 }
 
+.form-control {
+  width: 80%;
+}
+
 button:hover {
   background-position: right;
 }
@@ -67,4 +71,8 @@ button:hover {
 .form-control {
   text-indent: 8px;
   border-radius: 0.6rem 0 0 0.6rem;
+}
+
+.list-group {
+  position: absolute;
 }

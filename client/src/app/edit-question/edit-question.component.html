@@ -1,1 +1,22 @@
-<p>edit-question works!</p>
+<h3 class="my-5">Edit this question</h3>
+<form [formGroup]="editQuestionForm" (submit)="editQuestion()">
+  <label for="title" class="form-label">Title</label>
+  <input
+    formControlName="title"
+    class="form-control mb-2"
+    type="text"
+    name="title"
+    placeholder='Start your question with "What", "How", "Why", etc. '
+    required
+  />
+  <label for="text" class="form-label">Text</label>
+  <textarea
+    formControlName="text"
+    class="form-control mb-4"
+    name="text"
+    required
+    rows="10"
+    placeholder="Describe your question in brief to get accurate answer."
+  ></textarea>
+  <button type="submit" class="post-button mb-2">Save changes</button>
+</form>

@@ -3,7 +3,12 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  firebase: {
+    storageBucket: 'qanda-4e2a4.appspot.com',
+    apiKey: 'AIzaSyAumxyOXVIAhrn9ZzVTe4OAgY-hvPtNl4k',
+    authDomain: 'qanda-4e2a4.firebaseapp.com',
+  },
+  production: false,
 };
 
 /*

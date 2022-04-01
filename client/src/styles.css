@@ -3,15 +3,14 @@
 a {
   transition: 0.5s !important;
   cursor: pointer;
-  color: #932bee !important;
+  color: #5126d2 !important;
 }
 
 a:hover {
-  color: #4805d0 !important;
   transition: 0.5s !important;
+  color: #6041bb !important;
 }
 .btn-primary {
-  color: #fff;
   background-color: #714cdf;
   border-color: #714cdf;
   transition: 0.6s;
@@ -39,4 +38,13 @@ a:hover {
 
 .form-control:focus {
   color: #adabc6 !important;
+}
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
 }

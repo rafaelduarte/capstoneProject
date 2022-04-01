@@ -47,7 +47,6 @@
         <div class="card">
           <h3 class="mt-2 mb-4">Explore</h3>
         </div>
-
         <div class="m-2 border-bottom" *ngFor="let question of Questions">
           <div class="card mt-2 border">
             <div class="card-body">
@@ -81,17 +80,10 @@
                         <span class="answers">{{ question.likes }}</span>
                       </div>
                     </div>
-                    <div class="col">
-                      <div class="counter-bg">
-                        <span class="answers">{{ question.dislikes }}</span>
-                      </div>
-                    </div>
                   </div>
                   <div class="row">
                     <div class="col mt-2">answers</div>
                     <div class="col mt-2 ps-4">likes</div>
-
-                    <div class="col mt-2">dislikes</div>
                   </div>
                 </div>
               </div>

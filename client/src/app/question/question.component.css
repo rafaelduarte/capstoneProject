@@ -45,10 +45,18 @@ button {
   border-radius: 0.2rem;
   /* background-color: rgb(51, 51, 51); */
   background: linear-gradient(to right, #4a00e0, #8e2de2);
-  color: #fff;
+  color: #fff !important;
   background-size: 200% auto;
   transition: 1s;
 }
+.ask-button:hover {
+  color: #fff !important;
+}
+
+a:hover {
+  background-position: right;
+}
+
 button:hover {
   background-position: right;
 }
