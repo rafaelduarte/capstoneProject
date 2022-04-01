@@ -7,14 +7,18 @@
   <div class="container">
     <div class="blog-post mt-4">
       <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-10">
           <h2 class="blog-post-title">{{ question?.title }}</h2>
           <p class="blog-post-meta text-muted fs-6">
             {{ question?.issued_On | date: "longDate" }} by
             <a [routerLink]="['/']">{{ question?.owner?.name }}</a>
           </p>
         </div>
-        <div class="col-md-4"></div>
+        <div class="col-md-2" *ngIf="isQuesByCurrentUser">
+          <a class="ask-button" href="/{{ question?._id }}/editQuestion"
+            >Edit Question</a
+          >
+        </div>
       </div>
       <p>
         {{ question?.text }}
@@ -73,20 +77,13 @@
           <div class="card mt-2 border">
             <div class="card-body">
               <div class="row">
-                <div class="col-md-8">
+                <div class="col-md-11">
                   <div class="card-title fw-bold">
                     Answered on {{ answer.issued_On | date: "longDate" }}
                   </div>
                   <p class="text-muted">by {{ answer.author.name }}</p>
                 </div>
-                <div class="col-md-4 text-end">
-                  <button
-                    class="btn btn-primary"
-                    routerLink="/questions/editQuestion/{{ question._id }}"
-                  >
-                    Edit
-                  </button>
-                </div>
+                <!--    -->
               </div>
               <p>
                 {{ answer.text }}
@@ -149,16 +146,10 @@
                         <span class="answers">{{ question.likes }}</span>
                       </div>
                     </div>
-                    <div class="col">
-                      <div class="counter-bg">
-                        <span class="answers">{{ question.dislikes }}</span>
-                      </div>
-                    </div>
                   </div>
                   <div class="row">
                     <div class="col mt-2">answers</div>
                     <div class="col mt-2 ps-4">likes</div>
-                    <div class="col mt-2">dislikes</div>
                   </div>
                 </div>
               </div>

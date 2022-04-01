@@ -13,17 +13,27 @@
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse px-5" id="navbarMenu">
-    <form class="d-flex ms-5 search">
+    <div class="search d-inline">
       <input
-        class="form-control"
+        class="form-control d-inline"
         type="search"
         placeholder="Enter Keywords"
         aria-label="Search"
+        [(ngModel)]="searchText"
       />
       <button class="btn ask-button" type="submit">
         <fa-icon class="fa-search" [icon]="faSearch"></fa-icon>
       </button>
-    </form>
+      <ul class="list-group list-group-flush" *ngIf="searchText">
+        <a
+          class="list-group-item list-group-item-action"
+          *ngFor="let c of characters | filter: searchText"
+          (click)="searchClick(c)"
+        >
+          {{ c }}</a
+        >
+      </ul>
+    </div>
     <ul class="navbar-nav ms-auto">
       <li class="nav-item">
         <a class="nav-link text-light" routerLink="/">Home</a>
@@ -32,7 +42,7 @@
         <a class="nav-link text-light" routerLink="/questions">Questions</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link text-light" routerLink="/about-us">About Us</a>
+        <a class="nav-link text-light" routerLink="/about-us">About</a>
       </li>
       <li class="nav-item">
         <a

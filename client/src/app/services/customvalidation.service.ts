@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { AbstractControl, FormGroup, ValidatorFn } from '@angular/forms';
+import { UtilService } from './util.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CustomvalidationService {
-  constructor() {}
+  constructor(private utilService: UtilService) {}
 
   patternValidator(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } => {
@@ -41,5 +42,17 @@ export class CustomvalidationService {
         return;
       }
     };
+  }
+
+  imageValidator(
+    photoControl: AbstractControl
+  ): { [key: string]: boolean } | null {
+    if (photoControl.value) {
+      const [ulploadImage] = photoControl.value.files;
+      return this.utilService.validateFile(ulploadImage)
+        ? null
+        : { image: true };
+    }
+    return null;
   }
 }

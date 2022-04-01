@@ -27,6 +27,7 @@ const registerModule = async (req, res) => {
   user.username = req.body.username;
   user.bio = req.body.bio;
   user.date_of_birth = req.body.dob;
+  user.profile_pic = req.body.profile_pic;
   try {
     const savedUser = await user.save();
     res.send(savedUser);
@@ -76,6 +77,7 @@ const updateUserModule = async (req, res) => {
           user.username = req.body.username;
           user.bio = req.body.bio;
           user.date_of_birth = req.body.dob;
+          user.profile_pic = req.body.profile_pic;
           user.save({ validateBeforeSave: false }, (err) => {
             if (err) {
               res.json({

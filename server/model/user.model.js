@@ -40,6 +40,7 @@ var userSchema = new mongoose.Schema({
       ref: "Question",
     },
   ],
+  profile_pic: String,
 });
 
 //Password Hashing || Adding some salt and pepper XD
@@ -61,7 +62,7 @@ userSchema.methods.validPassword = function (password) {
 // Jwt Generation
 userSchema.methods.generateJwt = function (expiryDate) {
   var expiry = new Date();
-  expiry.setDate(expiry.getDate() + 1);
+  expiry.setDate(expiry.getDate() + 7);
 
   return jwt.sign(
     {

@@ -6,6 +6,9 @@ import { RouterModule, Routes } from '@angular/router';
 import { JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { DatePipe } from '@angular/common';
+import { AngularFireStorageModule } from '@angular/fire/compat/storage';
+import { AngularFireModule } from '@angular/fire/compat';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './account/login/login.component';
@@ -22,6 +25,11 @@ import { AuthInterceptorService } from './auth/auth-interceptor.service';
 import { CommaSeperatorPipe } from './comma-seperator.pipe';
 import { AboutUsComponent } from './about-us/about-us/about-us.component';
 import { EditQuestionComponent } from './edit-question/edit-question.component';
+import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
+import { environment } from '../environments/environment';
+import { provideStorage, getStorage } from '@angular/fire/storage';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FilterPipe } from './services/filter.pipe';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -54,7 +62,7 @@ const routes: Routes = [
     canActivateChild: [AuthGuard],
   },
   {
-    path: 'questions/editQuestion/:questionid',
+    path: ':questionId/editQuestion',
     component: EditQuestionComponent,
     canActivate: [AuthGuard],
   },
@@ -74,14 +82,19 @@ const routes: Routes = [
     CommaSeperatorPipe,
     AboutUsComponent,
     EditQuestionComponent,
+    FilterPipe,
   ],
   imports: [
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireStorageModule,
     BrowserModule,
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
     RouterModule.forRoot(routes),
     FontAwesomeModule,
+    MatProgressBarModule,
+    BrowserAnimationsModule,
   ],
   providers: [
     RegisterComponent,

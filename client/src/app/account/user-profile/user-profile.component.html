@@ -5,7 +5,11 @@
       <div class="row">
         <div class="col-md-4">
           <div class="profile-img">
-            <img src="../assets/images/IMG_0403.jpg" alt="/" />
+            <img
+              class=""
+              onerror="this.onerror=null;this.src=`../assets/images/user.png`"
+              [src]="currentUser?.profile_pic"
+            />
           </div>
         </div>
         <div class="col-md-6">
@@ -20,7 +24,9 @@
           </div>
         </div>
         <div class="col-md-2">
-          <a class="profile-edit-btn">Edit Profile</a>
+          <button class="profile-edit-btn" (click)="editToggle()">
+            Edit Profile
+          </button>
         </div>
       </div>
       <div class="row mt-4">
@@ -89,24 +95,42 @@
     <!-- isEdit = TRUE -->
     <!--  -->
     <div *ngIf="isEdit">
-      <form [formGroup]="form" (submit)="submit()">
+      <form [formGroup]="form">
         <div class="row">
           <div class="col-md-4">
             <div class="profile-img">
-              <img src="../assets/images/IMG_0403.jpg" alt="/" />
+              <img
+                class=""
+                onerror="this.onerror=null;this.src=`../assets/images/user.png`"
+                [src]="downloadUrl"
+              />
+              <h5 class="card-title">Select a file for upload:</h5>
+              <input
+                type="file"
+                (change)="onFileSelected($event)"
+                accept=".png,.jpg"
+              />
+              <input type="button" (click)="upload()" value="upload" />
             </div>
           </div>
           <div class="col-md-6">
             <div class="profile-head">
               <div class="bg-profile">
                 <label class="text-muted">Name</label>
+                <!-- <input
+                  name="userFullName"
+                  formControlName="name"
+                  type="text"
+                  class="form-control"
+                  placeholder="{{ currentUser?.name }}"
+                /> -->
                 <input
                   value="{{ currentUser?.name }}"
                   name="userFullName"
                   formControlName="name"
                   type="text"
+                  placeholder="{{ currentUser?.name }}"
                   class="form-control"
-                  placeholder="Enter your name here..."
                 />
                 <label class="text-muted mt-4">Bio</label>
                 <textarea
@@ -132,9 +156,9 @@
                   <div class="col-md-6">
                     <label class="mt-2">Username</label>
                     <input
+                      value="{{ currentUser?.username }}"
                       type="text"
                       class="form-control"
-                      value="{{ currentUser?.username }}"
                       placeholder="Enter your username here..."
                       formControlName="username"
                       name="userName"
@@ -147,7 +171,7 @@
                     <input
                       type="text"
                       class="form-control"
-                      value="{{ currentUser?.email }}"
+                      placeholder="{{ currentUser?.email }}"
                       placeholder="Enter your email here..."
                       formControlName="email"
                       name="userEmail"
@@ -160,7 +184,7 @@
                     <input
                       type="text"
                       class="form-control"
-                      value="{{
+                      placeholder="{{
                         currentUser?.date_of_birth | date: 'MMMM, d, y'
                       }}"
                       placeholder="Enter date of birth here..."
@@ -169,7 +193,11 @@
                     />
                   </div>
                 </div>
-                <button type="submit" class="mt-3 btn btn-primary">
+                <button
+                  type="submit"
+                  class="mt-3 btn btn-primary"
+                  (click)="submit()"
+                >
                   Submit
                 </button>
               </div>
@@ -183,5 +211,3 @@
     <!--  -->
   </div>
 </div>
-
-<div *ngIf="isEdit"></div>
