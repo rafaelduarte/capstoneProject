@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 const User = require("../model/user.model");
 
 //Middleware for token verification.
-function authorization(req, res, next) {
+function verifyToken(req, res, next) {
   const token = req.header("auth-token");
   if (!token) return res.status(401).send("Access Denied");
   //console.log(token);
@@ -17,9 +17,9 @@ function authorization(req, res, next) {
       // console.log("User _id:" + user._id);
       // console.log("User name:" + user.name);
       // console.log("Token _id:" + verified._id);
-      console.log("Not Found");
+      // console.log("Not Found");
     } else {
-      console.log("Found");
+      //console.log("Found");
     }
     req.user = verified;
     next();
@@ -28,4 +28,13 @@ function authorization(req, res, next) {
   }
 }
 
-module.exports = { authorization };
+function verifyRefresh() {
+  const token = req.header("refresh-token");
+  if (!token) return res.status(401).send("Access Denied");
+  //console.log(token);
+  try {
+    const decoded = jwt.verify(token, process.env.REFRESH_TOKEN_SECRET);
+  } catch (err) {}
+}
+
+module.exports = { verifyToken };

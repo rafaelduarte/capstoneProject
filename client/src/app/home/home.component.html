@@ -1,5 +1,6 @@
-<div class="row m-0">
-  <!-- <div
+<div class="container">
+  <div class="row m-0">
+    <!-- <div
       class="
         col-lg-12
         position-relative
@@ -36,67 +37,79 @@
         </div>
       </div>
     </div> -->
-  <div class="container-fluid">
-    <div class="row content">
-      <div class="col-sm-2 sidenav px-5">
-        <button class="ask-button me-2" type="button" routerLink="askQuestion">
-          ASK A QUESTION
-        </button>
-      </div>
-      <div class="col-sm-8 m-3">
-        <div class="card">
-          <h3 class="mt-2 mb-4">Explore</h3>
+
+    <div class="col-sm-12 m-3">
+      <div
+        class="col-lg-12 position-relative overflow-hidden p-4 p-md-5 m-md-3 text-center bg-dark"
+      >
+        <div class="p-lg-5 mx-auto my-5">
+          <div class="col-md-5 mx-auto p-lg-3 my-3">
+            <h1 class="display-4 font-weight-normal">Have a question?</h1>
+          </div>
+          <div class="col">
+            <div class="form-group">
+              <button
+                routerLink="askQuestion"
+                routerLinkActive="router-link-active"
+                class="ask-button w-15"
+                type="button"
+              >
+                Ask Here
+              </button>
+            </div>
+          </div>
         </div>
-        <div class="m-2 border-bottom" *ngFor="let question of Questions">
-          <div class="card mt-2 border">
-            <div class="card-body">
-              <div class="row">
-                <div class="col-md-8">
-                  <h5 class="card-title fw-bold">
-                    <a class="" routerLink="/questions/{{ question._id }}">{{
-                      question.title
-                    }}</a>
-                  </h5>
-                  <!-- <div *ngFor="let owner of Questions.owner"> -->
-                  <!-- <h6 class="text-muted">{{ question.owner.name }}</h6> -->
-                  <!-- </div> -->
-                  <p class="card-text muted overflow-information">
-                    {{ question.text }}
-                  </p>
-                </div>
-                <div class="col-md-4">
-                  <div class="row">
-                    <div class="col">
-                      <a class="" routerLink="/questions/{{ question._id }}">
-                        <div class="answers-bg">
-                          <span class="answers">
-                            {{ question.answers | commaSeperator }}
-                          </span>
-                        </div>
-                      </a>
-                    </div>
-                    <div class="col">
-                      <div class="counter-bg">
-                        <span class="answers">{{ question.likes }}</span>
+      </div>
+      <div class="card">
+        <h3 class="mt-2 mb-4">Explore</h3>
+      </div>
+      <div class="m-2 border-bottom" *ngFor="let question of Questions">
+        <div class="card mt-2 border">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-8">
+                <h5 class="card-title fw-bold">
+                  <a class="" routerLink="/questions/{{ question._id }}">{{
+                    question.title
+                  }}</a>
+                </h5>
+                <p class="card-text muted overflow-information">
+                  {{ question.text }}
+                </p>
+                <div *ngIf="question?.isEdited" class="edited">(edited)</div>
+              </div>
+              <div class="col-md-4">
+                <div class="row">
+                  <div class="col">
+                    <a class="" routerLink="/questions/{{ question._id }}">
+                      <div class="answers-bg">
+                        <span class="answers">
+                          {{ question.answers | commaSeperator }}
+                        </span>
                       </div>
+                    </a>
+                  </div>
+                  <div class="col">
+                    <div class="counter-bg">
+                      <span class="answers">{{ question.likes }}</span>
                     </div>
                   </div>
-                  <div class="row">
-                    <div class="col mt-2">answers</div>
-                    <div class="col mt-2 ps-4">likes</div>
-                  </div>
+                </div>
+                <div class="row">
+                  <div class="col mt-2">answers</div>
+                  <div class="col mt-2 ps-4">likes</div>
                 </div>
               </div>
             </div>
-            <div class="card-footer text-muted mt-4">
-              <strong
-                ><cite title="username">{{ question.owner.name }}</cite></strong
-              >
-              <span>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Asked on
-                {{ question.issued_On | date: "longDate" }}</span
-              >
-            </div>
+          </div>
+          <div class="card-footer text-muted mt-4">
+            <strong
+              ><cite title="username">{{ question.owner?.name }}</cite></strong
+            >
+            <span>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Asked on
+              {{ question.issued_On | date: "longDate" }}</span
+            >
           </div>
         </div>
       </div>

@@ -6,8 +6,7 @@
         <div class="col-md-4">
           <div class="profile-img">
             <img
-              class=""
-              onerror="this.onerror=null;this.src=`../assets/images/user.png`"
+              onerror="this.src='../../../assets/images/user.png'"
               [src]="currentUser?.profile_pic"
             />
           </div>
@@ -16,8 +15,8 @@
           <div class="profile-head">
             <div class="bg-profile">
               <h4>{{ currentUser?.name }}</h4>
-              <!-- <h6 class="text-muted">Bio</h6> -->
-              <h5 class="mt-4">
+              <h6 class="text-muted mt-4">Bio</h6>
+              <h5 class="mt-2">
                 {{ currentUser?.bio }}
               </h5>
             </div>

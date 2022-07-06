@@ -1,51 +1,126 @@
-<h3 class="my-5">Ask a question</h3>
-<form [formGroup]="askQuestionForm" (submit)="askQuestion()">
-  <label for="title" class="form-label">Title</label>
-  <input
-    formControlName="title"
-    class="form-control mb-2"
-    type="text"
-    name="title"
-    placeholder='Start your question with "What", "How", "Why", etc. '
-    required
-  />
-  <label for="text" class="form-label">Text</label>
-  <textarea
-    formControlName="text"
-    class="form-control mb-4"
-    name="text"
-    required
-    rows="10"
-    placeholder="Describe your question in brief to get accurate answer."
-  ></textarea>
-  <button type="submit" class="post-button mb-2">Post your question</button>
-</form>
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 m-3">
+      <!--  -->
+      <!-- Ask Question Form -->
+      <!--  -->
+      <div *ngIf="!isQuestionParam">
+        <h3 class="my-5">Ask a question</h3>
+        <form [formGroup]="saveQuestionForm" (submit)="saveQuestion()">
+          <div class="form-group mb-4">
+            <label for="title" class="form-label">Title</label>
+            <input
+              formControlName="title"
+              class="form-control mb-2"
+              type="text"
+              name="title"
+              placeholder='Start your question with "What", "How", "Why", etc. '
+              required
+            />
+            <span class="text-muted text-small fst-italic">
+              <span
+                class="text-danger"
+                *ngIf="
+                  saveQuestionForm.controls.title.touched &&
+                  saveQuestionForm.controls.title.errors?.required
+                "
+              >
+                <fa-icon [icon]="faCross"></fa-icon> Please enter a title
+              </span>
+            </span>
+          </div>
+          <div class="form-group mb-4">
+            <label for="text" class="form-label">Text</label>
+            <textarea
+              formControlName="text"
+              class="form-control mb-2"
+              name="text"
+              rows="10"
+              placeholder="Describe your question in brief to get accurate answers."
+              required
+            ></textarea>
+            <span class="text-muted text-small fst-italic">
+              <span
+                class="text-danger"
+                *ngIf="
+                  saveQuestionForm.controls.text.touched &&
+                  saveQuestionForm.controls.text.errors?.required
+                "
+              >
+                <fa-icon [icon]="faCross"></fa-icon> Please explain your
+                question a bit
+              </span>
+            </span>
+          </div>
+          <button
+            type="submit"
+            [disabled]="saveQuestionForm.invalid"
+            class="post-button mb-2"
+          >
+            Post your question
+          </button>
+        </form>
+      </div>
 
-<!-- <form [formGroup]="askQuestionForm" (submit)="askQuestion()">
-    <div class="form-group mb-3">
-      <label for="question_title" class="form-label">Title</label>
-      <input
-        type="text"
-        id="question_title"
-        class="form-control"
-        name="question_title"
-        formControlName="question_title"
-        placeholder='Start your question with "What", "How", "Why", etc. '
-        required
-      />
+      <!--  -->
+      <!-- Edit Quesiton Form-->
+      <!--  -->
+      <div *ngIf="isQuestionParam">
+        <h3 class="my-5">Edit this question</h3>
+        <form [formGroup]="saveQuestionForm" (submit)="saveEditQuestion()">
+          <div class="form-group mb-4">
+            <label for="title" class="form-label">Title</label>
+            <input
+              formControlName="title"
+              class="form-control mb-2"
+              type="text"
+              name="title"
+              required
+            />
+            <span class="text-muted text-small fst-italic">
+              <span
+                class="text-danger"
+                *ngIf="
+                  saveQuestionForm.controls.title.touched &&
+                  saveQuestionForm.controls.title.errors?.required
+                "
+              >
+                <fa-icon [icon]="faCross"></fa-icon> You cannot leave this
+                empty. Please enter a title
+              </span>
+            </span>
+          </div>
+          <div class="form-group mb-4">
+            <label for="text" class="form-label">Text</label>
+            <textarea
+              formControlName="text"
+              class="form-control mb-2"
+              name="text"
+              required
+              rows="10"
+            ></textarea>
+            <span class="text-muted text-small fst-italic">
+              <span
+                class="text-danger"
+                *ngIf="
+                  saveQuestionForm.controls.text.touched &&
+                  saveQuestionForm.controls.text.errors?.required
+                "
+              >
+                <fa-icon [icon]="faCross"></fa-icon> You cannot leave this
+                empty. Please explain your question a bit
+              </span>
+            </span>
+          </div>
+          <button
+            type="submit"
+            [disabled]="saveQuestionForm.invalid"
+            class="post-button mb-2"
+          >
+            Save changes
+          </button>
+        </form>
+      </div>
     </div>
-    <div class="form-group mb-4">
-      <label for="question_text" class="form-label"> Body </label>
-      <textarea
-        class="form-control"
-        id="question_text"
-        name="questioin_text"
-        placeholder="Describe your question in brief to get accurate answer."
-        rows="10"
-        required
-      ></textarea>
-    </div>
-    <div class="form-group">
-      <button type="submit">Save</button>
-    </div>
-  </form> -->
+  </div>
+</div>

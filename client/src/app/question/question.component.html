@@ -21,8 +21,10 @@
         </div>
       </div>
       <p>
-        {{ question?.text }}
+        {{ question?.text
+        }}<sup *ngIf="question?.isEdited" class="edited">(edited)</sup>
       </p>
+
       <div class="row">
         <div class="col-md-2" *ngIf="!isQuesByCurrentUser">
           <button class="d-inline me-2">
@@ -49,7 +51,7 @@
           <button
             type="button"
             routerLink="/questions/{{ question?._id }}/giveAnswer"
-            class="answer-button"
+            class="custom-button answer-button"
           >
             <fa-icon [icon]="faEdit"></fa-icon>
             Answer the question?
@@ -63,7 +65,7 @@
           <button
             type="button"
             routerLink="/questions/{{ question?._id }}/giveAnswer"
-            class="answer-button border-radius mb-4"
+            class="custom-button answer-button border-radius mb-4"
           >
             <fa-icon [icon]="faEdit"></fa-icon>
             Answer
@@ -71,24 +73,35 @@
         </div>
         <hr />
       </div>
-
-      <div class="answers">
-        <div *ngFor="let answer of question?.answers">
-          <div class="card mt-2 border">
-            <div class="card-body">
-              <div class="row">
-                <div class="col-md-11">
-                  <div class="card-title fw-bold">
-                    Answered on {{ answer.issued_On | date: "longDate" }}
-                  </div>
-                  <p class="text-muted">by {{ answer.author.name }}</p>
+      <div *ngFor="let answer of question?.answers">
+        <div class="card mt-2 border">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-10">
+                <div class="card-title fw-bold">
+                  Answered on {{ answer.issued_On | date: "longDate" }}
                 </div>
-                <!--    -->
+                <p class="text-muted ms-2">by {{ answer.author?.name }}</p>
               </div>
-              <p>
-                {{ answer.text }}
-              </p>
+              <div class="col-md-2">
+                <div *ngIf="answer?.isAnsByCurrentUser">
+                  <button
+                    type="button"
+                    routerLink="/question/{{ question?._id }}/{{
+                      answer._id
+                    }}/editAnswer"
+                    class="custom-button edit-button border-radius mb-4"
+                  >
+                    <fa-icon [icon]="faEdit"></fa-icon>
+                    Edit
+                  </button>
+                </div>
+              </div>
             </div>
+            <p class="my-2">
+              {{ answer.text
+              }}<sup *ngIf="answer.isEdited" class="edited">(edited)</sup>
+            </p>
           </div>
         </div>
       </div>
@@ -101,18 +114,9 @@
 <!--  -->
 <!--  -->
 <div *ngIf="!isParam">
-  <div class="container-fluid">
+  <div class="container">
     <div class="row content">
-      <div class="col-sm-2 sidenav px-5">
-        <button
-          class="ask-button me-2"
-          type="button"
-          routerLink="../askQuestion"
-        >
-          ASK A QUESITON
-        </button>
-      </div>
-      <div class="col-sm-8 m-3">
+      <div class="col-md-12 m-3">
         <div class="card">
           <h3 class="mt-2 mb-4">All Questions</h3>
         </div>
@@ -127,7 +131,10 @@
                     </a>
                   </h5>
                   <p class="card-text muted overflow-information">
-                    {{ question.text }}
+                    {{ question.text
+                    }}<sup *ngIf="question?.isEdited" class="edited"
+                      >(edited)</sup
+                    >
                   </p>
                 </div>
                 <div class="col-md-4">

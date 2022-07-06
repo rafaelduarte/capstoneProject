@@ -10,7 +10,6 @@ import { DataService } from '../services/data.service';
 })
 export class HomeComponent implements OnInit {
   public Questions!: questions[];
-  public ModifyQuestion!: any[];
   user!: string;
   public answersQuestionId: Array<String> = [];
   public totalAnswers: any = 0;
@@ -20,9 +19,8 @@ export class HomeComponent implements OnInit {
   ) {}
 
   private getQuestions() {
-    this.dataService.getQuestions().then((data) => {
+    this.dataService.getQuestions().subscribe((data) => {
       this.Questions = data;
-
       this.Questions.sort((a, b) => {
         return b.likes - a.likes;
       });

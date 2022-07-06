@@ -3,152 +3,336 @@
     <div class="col-md-6 card p-5 mx-auto">
       <h1 class="form-sigin-heading text-center mb-5">Create a new Account</h1>
       <form [formGroup]="form" (submit)="submit()">
-        <div class="form-group">
+        <!-- NAME INPUT -->
+        <div class="form-group mb-4">
           <label for="name" class="mb-2">Name</label>
           <input
             formControlName="name"
             type="text"
-            class="form-control mb-4"
+            class="form-control mb-2"
             name="name"
             placeholder="Enter name"
             required
           />
-          <span
-            class="text-danger"
-            *ngIf="
-              registerFormControl.name.touched &&
-              registerFormControl.name.errors?.required
-            "
-            >Name is required</span
-          >
+          <span class="text-danger text-muted font-small fst-italic">
+            <span
+              class="text-danger"
+              *ngIf="
+                registerFormControl.name.touched &&
+                registerFormControl.name.errors?.required
+              "
+            >
+              <fa-icon class="faCross" [icon]="faCross"></fa-icon> Name is
+              required
+            </span>
+          </span>
         </div>
-        <div class="form-group">
+        <!--  -->
+
+        <!-- USERNAME INPUT -->
+        <div class="form-group mb-4">
           <label for="username" class="mb-2">Username</label>
           <input
             formControlName="username"
             type="text"
-            class="form-control mb-4"
+            class="form-control mb-2"
             name="username"
             placeholder="Username"
             required
-          /><span
-            class="text-danger"
-            *ngIf="
-              registerFormControl.username.touched &&
-              registerFormControl.username.errors?.required
-            "
-            >Username is required</span
-          >
-          <span class="text-danger" *ngIf="userNameExists"
-            >Username already Exists</span
-          >
+          />
+          <span class="text-muted font-small fst-italic">
+            <span
+              class="text-danger"
+              *ngIf="
+                registerFormControl.username.touched &&
+                registerFormControl.username.errors?.required
+              "
+            >
+              <fa-icon class="faCross" [icon]="faCross"></fa-icon> Username is
+              required</span
+            >
+            <span
+              class="text-danger"
+              *ngIf="
+                registerFormControl.username.touched &&
+                registerFormControl.username.errors?.usernameAlreadyExists
+              "
+            >
+              <fa-icon class="faCross" [icon]="faCross"></fa-icon> Username
+              unavailable. Please select a different username</span
+            >
+          </span>
         </div>
-        <div class="form-group">
+        <!--  -->
+
+        <!-- EMAIL -->
+        <div class="form-group mb-4">
           <label for="email" class="mb-2">Email Address</label>
           <input
             formControlName="email"
             type="email"
-            class="form-control mb-4"
+            class="form-control mb-2"
             name="email"
             placeholder="Enter email"
             required
-          /><span
-            class="text-danger"
-            *ngIf="
-              registerFormControl.email.touched &&
-              registerFormControl.email.errors?.required
-            "
-            >Enter an email Address</span
-          ><span
-            class="text-danger"
-            *ngIf="
-              registerFormControl.email.touched &&
-              registerFormControl.email.errors?.email
-            "
-            >Enter a valid email Address</span
-          ><span class="text-danger" *ngIf="emailExists"
-            >Email already Exists</span
-          >
+          />
+          <span class="text-muted font-small fst-italic">
+            <span
+              class="text-danger"
+              *ngIf="
+                registerFormControl.email.touched &&
+                registerFormControl.email.errors?.required
+              "
+            >
+              <fa-icon class="faCross" [icon]="faCross"></fa-icon> Enter an
+              email Address</span
+            >
+            <span
+              class="text-danger"
+              *ngIf="
+                registerFormControl.email.touched &&
+                registerFormControl.email.errors?.email
+              "
+            >
+              <fa-icon class="faCross" [icon]="faCross"></fa-icon> Please enter
+              a valid email Address</span
+            >
+            <span
+              class="text-danger"
+              *ngIf="registerFormControl.email.errors?.emailAlreadyExists"
+            >
+              <fa-icon class="faCross" [icon]="faCross"></fa-icon> Email already
+              Exists. Please enter another email adress</span
+            >
+          </span>
         </div>
-        <div class="form-group">
+        <div class="form-group mb-4">
           <label for="password" class="mb-2">Password</label>
           <input
             formControlName="password"
             type="password"
-            class="form-control mb-4"
+            class="form-control mb-2"
             name="password"
             placeholder="Password"
             required
           />
-          <span
-            class="text-danger"
-            *ngIf="
-              registerFormControl.password.touched &&
-              registerFormControl.password.errors?.required
-            "
-            >Password is required</span
-          >
-          <span
-            class="text-danger"
-            *ngIf="
-              registerFormControl.password.touched &&
-              registerFormControl.password.errors?.invalidPassword
-            "
-            >Password should have minimum 8 characters, at least 1 uppercase
-            letter, 1 lowercase letter and 1 number</span
-          >
+          <span class="text-muted font-small fst-italic">
+            <!-- MINIMUM LENGTH -->
+            <fa-icon
+              *ngIf="
+                passwordValue &&
+                !registerFormControl.password.errors?.minimumCharacterError
+              "
+              [icon]="fasCheck"
+              class="fasCheck"
+            ></fa-icon>
+            <!-- isPassEmpty -->
+            <fa-icon
+              *ngIf="
+                !passwordValue &&
+                !registerFormControl.password.errors?.minimumCharacterError
+              "
+              [icon]="fasCheck"
+            ></fa-icon>
+            <!--  -->
+            <span
+              class="text-danger"
+              *ngIf="registerFormControl.password.errors?.minimumCharacterError"
+              ><fa-icon class="faCross" [icon]="faCross"></fa-icon>
+            </span>
+            Minimumn 8 Characters <br />
+
+            <!-- NUMERIC -->
+            <fa-icon
+              *ngIf="
+                passwordValue &&
+                !registerFormControl.password.errors?.noNumberError
+              "
+              [icon]="fasCheck"
+              class="fasCheck"
+            ></fa-icon>
+            <!-- isPassEmpty -->
+            <fa-icon
+              *ngIf="
+                !passwordValue &&
+                !registerFormControl.password.errors?.noNumberError
+              "
+              [icon]="fasCheck"
+            ></fa-icon>
+            <!--  -->
+            <span
+              class="text-danger"
+              *ngIf="registerFormControl.password.errors?.noNumberError"
+              ><fa-icon class="faCross" [icon]="faCross"></fa-icon>
+            </span>
+            Numeric Character <br />
+
+            <!-- SPECIAL CHARACTER -->
+            <fa-icon
+              *ngIf="
+                passwordValue &&
+                !registerFormControl.password.errors?.noSpecialCharacterError
+              "
+              class="fasCheck"
+              [icon]="fasCheck"
+            ></fa-icon>
+            <!-- isPassEmpty -->
+            <fa-icon
+              *ngIf="
+                !passwordValue &&
+                !registerFormControl.password.errors?.noSpecialCharacterError
+              "
+              [icon]="fasCheck"
+            ></fa-icon>
+            <!--  -->
+            <span
+              class="text-danger"
+              *ngIf="
+                registerFormControl.password.errors?.noSpecialCharacterError
+              "
+              ><fa-icon class="faCross" [icon]="faCross"></fa-icon
+            ></span>
+            Special Character<br />
+            <!--  -->
+
+            <!-- UPPERCASE -->
+            <fa-icon
+              *ngIf="
+                passwordValue &&
+                !registerFormControl.password.errors?.noUppercaseCharacterError
+              "
+              class="fasCheck"
+              [icon]="fasCheck"
+            ></fa-icon>
+            <!-- isPassEmpty -->
+            <fa-icon
+              *ngIf="
+                !passwordValue &&
+                !registerFormControl.password.errors?.noUppercaseCharacterError
+              "
+              [icon]="fasCheck"
+            ></fa-icon>
+            <!--  -->
+            <span
+              class="text-danger"
+              *ngIf="
+                registerFormControl.password.errors?.noUppercaseCharacterError
+              "
+              ><fa-icon class="faCross" [icon]="faCross"></fa-icon>
+            </span>
+            Uppercase Character <br />
+            <!--  -->
+
+            <!-- LOWERCASE -->
+            <fa-icon
+              *ngIf="
+                passwordValue &&
+                !registerFormControl.password.errors?.noLowercaseCharacterError
+              "
+              class="fasCheck"
+              [icon]="fasCheck"
+            ></fa-icon>
+            <!-- isPassEmpty -->
+            <fa-icon
+              *ngIf="
+                !passwordValue &&
+                !registerFormControl.password.errors?.noLowercaseCharacterError
+              "
+              [icon]="fasCheck"
+            ></fa-icon>
+            <!--  -->
+            <span
+              class="text-danger"
+              *ngIf="
+                registerFormControl.password.errors?.noLowercaseCharacterError
+              "
+            >
+              <fa-icon class="faCross" [icon]="faCross"></fa-icon>
+            </span>
+            Lowercase Character <br />
+            <!--  -->
+
+            <span
+              class="text-danger"
+              *ngIf="
+                registerFormControl.password.touched &&
+                registerFormControl.password.errors?.required
+              "
+            >
+              <fa-icon class="faCross" [icon]="faCross"></fa-icon>Password is
+              required</span
+            >
+          </span>
         </div>
-        <div class="form-group">
+        <div class="form-group mb-4">
           <label for="confirmPassword" class="mb-2">Confirm Password</label>
           <input
             formControlName="confirmPassword"
             type="password"
-            class="form-control mb-4"
+            class="form-control mb-2"
             name="confirmPassword"
             placeholder="Confirm Password"
             required
-          /><span
-            class="text-danger"
-            *ngIf="
-              registerFormControl.confirmPassword.touched &&
-              registerFormControl.confirmPassword.errors?.required
-            "
-            >Password is required</span
-          ><span
-            class="text-danger"
-            *ngIf="
-              registerFormControl.confirmPassword.touched &&
-              registerFormControl.confirmPassword.errors?.passwordMismatch
-            "
-            >Password doesnot match</span
-          >
+          />
+          <span class="text-muted font-small fst-italic">
+            <span
+              class="text-danger"
+              *ngIf="
+                registerFormControl.confirmPassword.touched &&
+                registerFormControl.confirmPassword.errors?.required
+              "
+            >
+              <fa-icon class="faCross" [icon]="faCross"></fa-icon> Password is
+              required</span
+            ><span
+              class="text-danger"
+              *ngIf="
+                registerFormControl.confirmPassword.touched &&
+                registerFormControl.confirmPassword.errors?.passwordMismatch
+              "
+            >
+              <fa-icon class="faCross" [icon]="faCross"></fa-icon> Password
+              doesnot match</span
+            >
+          </span>
         </div>
-        <div class="form-group">
-          <label for="dob" class="mb-2">Date of Birth</label>
+        <div class="form-group mb-4">
+          <label for="birthday" class="mb-2">Date of Birth</label>
           <input
-            type="text"
-            class="form-control mb-4"
-            formControlName="dob"
+            type="date"
+            class="form-control mb-2"
+            formControlName="birthday"
             style="width: 150px"
-            name="dob"
-            placeholder="YYYY-MM-DD"
+            name="birthday"
           />
         </div>
-        <div class="form-group">
+        <div class="form-group mb-4">
           <label for="bio" class="mb-2">Personal Bio</label>
           <textarea
             formControlName="bio"
             type="text"
-            class="form-control mb-4"
+            class="form-control mb-2"
             name="bio"
             placeholder="Personal Bio"
             required
           ></textarea>
+          <span class="text-muted font-small fst-italic">
+            <span
+              class="text-danger"
+              *ngIf="
+                registerFormControl.bio.touched &&
+                registerFormControl.bio.errors?.required
+              "
+              ><fa-icon [icon]="faCross"></fa-icon> Please enter your bio
+            </span>
+          </span>
         </div>
         <p class="lead">
           Already a member? Please <a routerLink="/login">login</a> instead.
         </p>
-        <button type="submit" class="btn btn-primary">Sign up!</button>
+        <button type="submit" [disabled]="form.invalid" class="btn btn-primary">
+          Sign up!
+        </button>
       </form>
     </div>
   </div>

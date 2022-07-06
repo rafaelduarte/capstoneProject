@@ -1,7 +1,3 @@
-h5 {
-  margin-bottom: 0.1rem;
-}
-
 .bg-containerDark {
   background-color: #282a38;
 }
@@ -19,11 +15,6 @@ a:hover {
 .answer-button {
   padding: 0.6rem 1.4rem;
   border-radius: 0.2rem;
-  /* background-color: rgb(51, 51, 51); */
-  background: linear-gradient(to right, rgb(74, 0, 224), rgb(142, 45, 226));
-  color: #fff;
-  background-size: 200% auto;
-  transition: 1s;
 }
 
 .border-radius {
@@ -42,15 +33,21 @@ button {
   width: 100%;
   font-size: 1rem;
   padding: 1rem;
-  border-radius: 0.2rem;
-  /* background-color: rgb(51, 51, 51); */
+}
+.ask-button:hover {
+  color: #fff !important;
+}
+
+.custom-button {
   background: linear-gradient(to right, #4a00e0, #8e2de2);
   color: #fff !important;
   background-size: 200% auto;
   transition: 1s;
+  border-radius: 0.2rem;
 }
-.ask-button:hover {
-  color: #fff !important;
+
+.edit-button {
+  padding: 0 0.8rem;
 }
 
 a:hover {
@@ -67,10 +64,6 @@ button .farHeart:hover {
 
 button .fasHeart {
   color: #4a00e0;
-}
-
-.card-title {
-  margin: 0 !important;
 }
 
 .sidenav {
@@ -117,10 +110,5 @@ button .fasHeart {
   text-align: center;
 }
 
-.overflow-information {
-  overflow: hidden;
-  display: inline-block;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  width: 560px;
-}
+
+

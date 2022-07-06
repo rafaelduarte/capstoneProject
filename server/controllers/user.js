@@ -26,7 +26,7 @@ const registerModule = async (req, res) => {
   // New Fields
   user.username = req.body.username;
   user.bio = req.body.bio;
-  user.date_of_birth = req.body.dob;
+  user.date_of_birth = req.body.birthday;
   user.profile_pic = req.body.profile_pic;
   try {
     const savedUser = await user.save();
@@ -44,19 +44,47 @@ const loginModule = async (req, res) => {
 
   //Check if email(user) exists in Database
   await User.findOne({ email: req.body.email }, function (err, user) {
-    //Are ther eany server/database error
+    //Are there any server/database error
     if (err) return res.send(err);
     //Is Email corect?
     if (!user) return res.status(422).send("Email or password is incorrect");
     //Is password correct?
     if (!user.validPassword(req.body.password))
-      return res.status(422).send("Password incorrect");
+      return res.status(422).send("Email or password is incorrect");
 
     //Assigning JWT token
     var token = user.generateJwt();
     //res.header("auth-token", token).send(token);
     res.json({ user, token });
     //res.cookie("token", token, { httpOnly: true }).send(token);
+  });
+};
+
+//FindUserByEmail
+
+const findUserByEmail = (req, res) => {
+  User.find({ email: req.params.emailid }).exec((err, user) => {
+    if (err) {
+      res.json({ success: false, message: err });
+    }
+    if (user.length === 0) {
+      res.status(400).json({ success: false, message: "user not found" });
+    } else if (user) {
+      res.json(user[0].email);
+    }
+  });
+};
+
+const findUserByUsername = (req, res) => {
+  User.find({ username: req.params.username }).exec((err, user) => {
+    if (err) {
+      res.json({ success: false, message: err });
+    }
+    if (user.length === 0) {
+      res.status(400).json({ success: false, message: "user not found" });
+    } else if (user) {
+      res.json(user[0].username);
+    }
   });
 };
 
@@ -99,4 +127,6 @@ module.exports = {
   registerModule,
   loginModule,
   updateUserModule,
+  findUserByEmail,
+  findUserByUsername,
 };

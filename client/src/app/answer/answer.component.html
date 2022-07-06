@@ -1,0 +1,96 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 m-3">
+      <h3 class="my-5">Answer the question</h3>
+      <div class="m-2">
+        <div class="card border">
+          <div class="card-footer">
+            <h4 class="my-3">{{ question?.title }}</h4>
+          </div>
+        </div>
+        <!--  -->
+        <!-- Answer the Question -->
+        <!--  -->
+        <div *ngIf="!isAnswerParam">
+          <form
+            [formGroup]="saveAnswerForm"
+            (submit)="saveAnswer()"
+            class="my-3"
+          >
+            <div class="form-group mb-4">
+              <label for="text" class="form-label">answer:</label>
+              <textarea
+                formControlName="text"
+                class="form-control mb-2 ms-2"
+                name="text"
+                required
+                rows="10"
+                placeholder="Write down your answer in brief."
+              ></textarea
+              ><span class="text-muted text-small fst-italic">
+                <span
+                  class="text-danger"
+                  *ngIf="
+                    saveAnswerForm.controls.text.touched &&
+                    saveAnswerForm.controls.text.errors?.required
+                  "
+                >
+                  <fa-icon [icon]="faCross"></fa-icon> This field cannot be
+                  empty. Please enter your answer
+                </span>
+              </span>
+            </div>
+            <button
+              type="submit"
+              [disabled]="saveAnswerForm.invalid"
+              class="answer-button mb-2"
+            >
+              Post your answer
+            </button>
+          </form>
+        </div>
+
+        <!--  -->
+        <!-- Edit Answer Form -->
+        <!--  -->
+        <div *ngIf="isAnswerParam">
+          <form
+            [formGroup]="saveEditAnswerForm"
+            (submit)="saveEditedAnswer()"
+            class="my-3"
+          >
+            <div class="form-group mb-4">
+              <label for="text" class="form-label">answer:</label>
+              <textarea
+                formControlName="text"
+                class="form-control mb-2 ms-2"
+                name="text"
+                required
+                rows="10"
+              ></textarea>
+              <span class="text-muted text-small fst-italic">
+                <span
+                  class="text-danger"
+                  *ngIf="
+                    saveEditAnswerForm.controls.text.touched &&
+                    saveEditAnswerForm.controls.text.errors?.required
+                  "
+                >
+                  <fa-icon [icon]="faCross"></fa-icon> This field cannot be
+                  empty. Please enter your answer
+                </span>
+              </span>
+            </div>
+            <button
+              type="submit"
+              [disabled]="saveEditAnswerForm.invalid"
+              class="answer-button mb-2"
+            >
+              Submit changes
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

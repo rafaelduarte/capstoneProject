@@ -1,4 +1,8 @@
-import { HttpClient, HttpInterceptor } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpInterceptor,
+} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { of, Subject, throwError } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
@@ -8,6 +12,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { User } from '../models/user.model';
 import { error } from '@angular/compiler/src/util';
 import { InterceptorSkipHeader } from './auth-interceptor.service';
+import { Console } from 'console';
 
 interface userDto {
   user: User;
@@ -63,6 +68,35 @@ export class AuthenticationService {
     window.localStorage.removeItem(this.TOKEN_KEY);
   }
 
+  findUserByEmail(email: string) {
+    return this.http
+      .get(`${this.server_route}/api/users/findUserByEmail/${email}`, {
+        headers: InterceptorSkipHeader,
+      })
+      .pipe(
+        switchMap((user) => {
+          // console.log('email:', email);
+          // console.log('User: ', user);
+
+          return of(user);
+        })
+      );
+  }
+
+  findUserByUsername(username: string) {
+    return this.http
+      .get(`${this.server_route}/api/users/findUserByUsername/${username}`, {
+        headers: InterceptorSkipHeader,
+      })
+      .pipe(
+        switchMap((user, error) => {
+          // console.log('username:', username);
+          // console.log('User: ', user);
+          return of(user);
+        })
+      );
+  }
+
   public login(email: string, password: string, rememberMe?: boolean) {
     const loginCredentials = { email, password };
     //console.log('login credentials', loginCredentials);
@@ -87,12 +121,27 @@ export class AuthenticationService {
           // }
           this.isLoggedIn = true;
           return of(user);
+        }),
+        catchError((e) => {
+          //console.error(e);
+          if (e instanceof HttpErrorResponse) {
+            if (e.error instanceof ErrorEvent) {
+              console.error('Error Event');
+            } else {
+              //console.error(`error status: ${e.status} ${e.statusText}`);
+              switch (e.status) {
+                case 422: //wrong credentials
+                  return throwError('Login failed, Wrong Credentials');
+                  break;
+              }
+            }
+          }
+          return throwError('Login failed, please contact admin');
         })
       );
   }
 
   public register(user: any) {
-    console.log(user);
     return this.http
       .post(`${this.server_route}/api/users/register`, user, {
         headers: InterceptorSkipHeader,
@@ -107,7 +156,7 @@ export class AuthenticationService {
         }),
         catchError((e) => {
           this.error = e.error;
-          console.log('Server Error log: ', this.error);
+          console.error('Server Error log: ', this.error);
           return throwError('Registration failed, please contact admin');
         })
       );

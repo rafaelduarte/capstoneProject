@@ -27,4 +27,5 @@ export interface questions {
   likedBy: string;
   dislikes: number;
   dislikedBy: string;
+  isEdited: Boolean;
 }

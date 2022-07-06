@@ -22,7 +22,7 @@ export class NavComponent implements OnInit {
   characters: Array<String> = [];
   questions!: questions[];
   ngOnInit(): void {
-    this.dataService.getQuestions().then((data) => {
+    this.dataService.getQuestions().subscribe((data) => {
       //console.log(data);
       this.questions = data;
       let title: string;

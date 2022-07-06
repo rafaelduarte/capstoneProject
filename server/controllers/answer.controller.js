@@ -15,7 +15,7 @@ const createAnswer = async (req, res) => {
         { new: true, useFindAndModify: false }
       ).exec((err, questionData) => {
         if (err) {
-          console.log(err);
+          console.error(err);
         } else {
           res.send(questionData);
         }
@@ -38,4 +38,27 @@ const fetchAnswers = async (req, res) => {
       }
     });
 };
-module.exports = { createAnswer, fetchAnswers };
+
+//Modify an Answer
+const editAnswer = async (req, res) => {
+  const answerid = req.params.answerid;
+  const answer = new Answer();
+  answer.text = req.body.text;
+
+  try {
+    await Answer.findByIdAndUpdate(
+      answerid,
+      { text: answer.text, isEdited: true },
+      { new: true }
+    ).exec((err, data) => {
+      if (err) {
+        console.error(err);
+      } else {
+        res.send(data);
+      }
+    });
+  } catch (err) {
+    console.error(err);
+  }
+};
+module.exports = { createAnswer, fetchAnswers, editAnswer };
