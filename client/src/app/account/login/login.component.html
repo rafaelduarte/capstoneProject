@@ -3,66 +3,73 @@
     <div class="col-md-6 mx-auto mt-5 card p-5">
       <h1 class="form-sigin-heading text-center mb-4">Sign in</h1>
       <form [formGroup]="form" (submit)="login()">
-        <div class="form-group">
+        <!-- EMAIL ADDRESS -->
+        <div class="form-group mb-4">
           <label for="email" class="mb-2">Email Address</label>
           <input
             formControlName="email"
             type="email"
-            class="form-control mb-4"
+            class="form-control mb-2"
             name="email"
             placeholder="Enter email"
             required
-          /><span
-            class="text-danger"
-            *ngIf="
-              loginFormControls.email.touched &&
-              loginFormControls.email.errors?.required
-            "
-            >Enter email</span
-          ><span
-            class="text-danger"
-            *ngIf="
-              loginFormControls.email.touched &&
-              loginFormControls.email.errors?.email
-            "
-            >Enter a valid email</span
-          >
+          />
+          <span class="text-muted font-small fst-italic">
+            <span
+              class="text-danger"
+              *ngIf="
+                loginFormControls.email.touched &&
+                loginFormControls.email.errors?.required
+              "
+            >
+              <fa-icon class="faCross" [icon]="faCross"></fa-icon> Please enter
+              email</span
+            ><span
+              class="text-danger"
+              *ngIf="
+                loginFormControls.email.touched &&
+                loginFormControls.email.errors?.email
+              "
+            >
+              <fa-icon class="faCross" [icon]="faCross"></fa-icon> Please enter
+              a valid email</span
+            >
+          </span>
         </div>
 
-        <div class="form-group">
+        <div class="form-group mb-4">
           <label for="password" class="mb-2">Password</label>
           <input
             formControlName="password"
             type="password"
-            class="form-control mb-3"
+            class="form-control mb-2"
             name="password"
             placeholder="Password"
             required
           />
+          <span class="text-muted font-small fst-italic"></span>
           <span
             class="text-danger"
             *ngIf="
               loginFormControls.password.touched &&
               loginFormControls.password.errors?.required
             "
-            >Enter password</span
+          >
+            <fa-icon class="faCross" [icon]="faCross"></fa-icon> Please enter
+            password</span
+          >
+          <span class="text-danger" *ngIf="isFieldIncorrect">
+            <fa-icon class="faCross" [icon]="faCross"></fa-icon> Email or
+            Password Incorrect. Please try again</span
           >
         </div>
-        <div class="form-check">
-          <input
-            type="checkbox"
-            value="true"
-            formControlName="rememberMe"
-            class="mb-3 form-check-input"
-            name="rememberMe"
-          /><label for="rememberMe" class="form-check-label"
-            >Remember me?</label
-          >
-        </div>
-        <p class="lead">
+
+        <p class="lead fst-italic">
           Not a member? Please <a routerLink="/register">register</a> instead.
         </p>
-        <button type="submit" class="btn sign-button">Sign In!</button>
+        <button type="submit" [disabled]="form.invalid" class="btn sign-button">
+          Sign In!
+        </button>
       </form>
     </div>
   </div>

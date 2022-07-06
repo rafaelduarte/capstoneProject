@@ -11,8 +11,8 @@ router.post("/register", ctrlUser.registerModule);
 router.post("/login", ctrlUser.loginModule);
 
 //Profile
-router.get("/profile", authorization.authorization, ctrlProfile.profile);
+router.get("/profile", authorization.verifyToken, ctrlProfile.profile);
 //Posts
-router.get("/posts", authorization.authorization, ctrlProfile.posts);
+router.get("/posts", authorization.verifyToken, ctrlProfile.posts);
 
 module.exports = router;

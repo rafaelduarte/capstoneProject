@@ -30,7 +30,7 @@ export class UserProfileComponent implements OnInit {
   userObject!: User;
   constructor(
     private authService: AuthenticationService,
-    private dataService: DataService, 
+    private dataService: DataService,
     private formBuilder: FormBuilder,
     private firebaseService: FirebaseStorageService
   ) {}
@@ -47,7 +47,7 @@ export class UserProfileComponent implements OnInit {
   }
 
   getUser(id: any) {
-    this.dataService.getUser(id).subscribe(
+    this.dataService.getUserProfile(id).subscribe(
       (user) => {
         this.currentUser = user;
         this.countFields(this.currentUser, 'questions');
@@ -61,6 +61,7 @@ export class UserProfileComponent implements OnInit {
     //If count is questions
     if ((field = 'questions ')) {
       let userData = user.questions;
+
       //console.log(userData);
       if (userData.length <= 0) {
         //console.log(`No ${field} here.`);
@@ -78,8 +79,9 @@ export class UserProfileComponent implements OnInit {
       this.dataService.getAnswers().subscribe((data) => {
         let fieldData = data;
         let answersUserId = Array();
+
         for (let i = 0; i <= data.length; i++) {
-          if (fieldData[i]?.author._id == this.authService.getUserId()) {
+          if (fieldData[i]?.author?._id == this.authService.getUserId()) {
             let tempAnswersUserId = answersUserId.push(
               fieldData[i]?.author._id
             );
@@ -97,24 +99,23 @@ export class UserProfileComponent implements OnInit {
     this.userObject = updatedData;
     this.userObject.profile_pic = this.downloadUrl;
 
-    console.log(this.userObject);
+    //console.log(this.userObject);
     this.dataService
       .updateUser(this.authService.getUserId(), this.userObject)
       .subscribe(
         (data) => {
-          console.log(data);
+          //console.log(data);
           this.isEdit = false;
           window.location.reload();
         },
         (error) => {
-          console.log(error);
+          console.error(error);
         }
       );
   }
 
   editToggle(): void {
-    console.log(this.form.value);
-    this.isEdit = true;
+    
     this.getUser(this.authService.getUserId());
     this.downloadUrl = this.currentUser.profile_pic;
     // console.log('isEdit: ', this.isEdit);
@@ -131,25 +132,26 @@ export class UserProfileComponent implements OnInit {
 
   onFileSelected(event: any): void {
     this.selectedFile = event.target.files;
-    console.log(event.target.files.item(0));
+    //console.log(event.target.files.item(0));
   }
 
   upload() {
     this.submitted = true;
     const file: File = this.selectedFile.item(0) as File;
-    console.log(file);
+    //console.log(file);
     this.currentFileUpload = new imageFile(file);
-    console.log(this.currentFileUpload);
+    //console.log(this.currentFileUpload);
     const userName = this.currentUser.username;
     const mediaFolderPath = `Profile/${this.currentUser.email}/profileImage/`;
     const { uploadProgress$, downloadUrl$ } =
       this.firebaseService.uploadFileAndGetMetadata(
         this.currentFileUpload,
+
         mediaFolderPath,
         userName
       );
     downloadUrl$.subscribe((downloadUrl) => {
-      console.log(downloadUrl);
+      //console.log(downloadUrl);
       this.downloadUrl = downloadUrl;
     });
   }

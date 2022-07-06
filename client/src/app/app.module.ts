@@ -19,17 +19,16 @@ import { AuthenticationService } from './auth/authentication.service';
 import { UserProfileComponent } from './account/user-profile/user-profile.component';
 import { NavComponent } from './nav/nav.component';
 import { AuthGuard } from './auth/auth.guard';
-import { AnswerComponent } from './account/answer/answer.component';
+import { AnswerComponent } from './answer/answer.component';
 import { AskQuestionComponent } from './ask-question/ask-question.component';
 import { AuthInterceptorService } from './auth/auth-interceptor.service';
+
 import { CommaSeperatorPipe } from './comma-seperator.pipe';
 import { AboutUsComponent } from './about-us/about-us/about-us.component';
-import { EditQuestionComponent } from './edit-question/edit-question.component';
-import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
-import { provideStorage, getStorage } from '@angular/fire/storage';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FilterPipe } from './services/filter.pipe';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -40,7 +39,6 @@ const routes: Routes = [
     component: UserProfileComponent,
     canActivate: [AuthGuard],
   },
-  { path: 'about-us', component: AboutUsComponent },
   {
     path: 'questions',
     component: QuestionComponent,
@@ -51,7 +49,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
-    path: 'questions/:questionid/giveAnswer',
+    path: 'questions/:questionId/giveAnswer',
     component: AnswerComponent,
     canActivate: [AuthGuard],
   },
@@ -63,8 +61,18 @@ const routes: Routes = [
   },
   {
     path: ':questionId/editQuestion',
-    component: EditQuestionComponent,
+    component: AskQuestionComponent,
     canActivate: [AuthGuard],
+  },
+  {
+    path: 'question/:questionId/:answerId/editAnswer',
+    component: AnswerComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: '**',
+    pathMatch: 'full',
+    component: PageNotFoundComponent,
   },
 ];
 
@@ -81,8 +89,8 @@ const routes: Routes = [
     AskQuestionComponent,
     CommaSeperatorPipe,
     AboutUsComponent,
-    EditQuestionComponent,
     FilterPipe,
+    PageNotFoundComponent,
   ],
   imports: [
     AngularFireModule.initializeApp(environment.firebase),

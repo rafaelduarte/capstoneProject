@@ -13,7 +13,10 @@ const answerSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  isEdited: {
+    type: Boolean,
+    default: false,
+  },
 });
-
 
 module.exports = mongoose.model("Answer", answerSchema);

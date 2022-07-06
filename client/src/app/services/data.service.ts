@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
 import { answers, questions } from '../models/question.model';
@@ -16,71 +16,72 @@ export class DataService {
 
   constructor(private http: HttpClient, private router: Router) {}
 
-  public getQuestions(): Promise<questions[]> {
-    return this.http
-      .get(this.GET_QUESTION_API, { headers: InterceptorSkipHeader })
-      .toPromise()
-      .then((res) => res as questions[])
-      .catch(this.handleError);
-  }
-
-  public getSingleQuestion(questionid: string): Promise<questions[]> {
-    return this.http
-      .get(this.GET_QUESTION_API + '/' + questionid)
-      .toPromise()
-      .then((res) => res as questions[]);
-  }
-
   //GET response deseralize JSON object into interface Type
-  public getAnswers() {
+  public getAnswers(): Observable<answers[]> {
     return this.http.get<answers[]>(this.SERVER_API + '/api/answers').pipe(
       switchMap((answer) => {
+        //console.log(answer);
         return of(answer as answers[]);
       }),
       catchError((e) => {
-        console.log('Server error log: ', e.error);
+        console.error('Server error log: ', e.error);
         return throwError('Answers not found due to server error.');
       })
     );
   }
 
-  public getUser(userId: string) {
+  //Fetch User Profile
+  public getUserProfile(userId: string) {
     return this.http.get(this.SERVER_API + '/api/' + userId + '/profile').pipe(
       switchMap((user) => {
         return of(user);
       }),
       catchError((e) => {
-        console.log(e.error);
+        console.error(e.error);
         return throwError('Failed to fetch user profile');
       })
     );
   }
 
-  public postQuestion(userid: string, data: any): Observable<any> {
-    // const postData = new FormData();
-    // postData.set('title', title);
-    // postData.set('text', text);
+  //Update User Profile
+  public updateUser(userid: string, user: User) {
+    return this.http.put(`${this.SERVER_API}/api/${userid}/updateUser`, user);
+  }
 
-    console.log(data);
+  //Fetch Questions
+  public getQuestions(): Observable<questions[]> {
+    return this.http
+      .get<questions[]>(this.GET_QUESTION_API, {
+        headers: InterceptorSkipHeader,
+      })
+      .pipe(
+        switchMap((questions) => {
+          return of(questions);
+        })
+      );
+  }
+
+  //Fetch Single Question
+  public getSingleQuestion(questionid: string): Observable<questions[]> {
+    return this.http
+      .get<questions[]>(this.GET_QUESTION_API + '/' + questionid)
+      .pipe(
+        switchMap((question) => {
+          return of(question);
+        })
+      );
+  }
+
+  //Create a Question
+  public postQuestion(userid: string, data: any): Observable<any> {
+    //console.log(data);
     return this.http.post<any>(
       `${this.SERVER_API}/api/${userid}/askQuestion`,
       data
     );
   }
 
-  public saveAnswer(questionid: string, data: any): Observable<any> {
-    console.log(data);
-    return this.http.post<any>(
-      `${this.SERVER_API}/api/questions/${questionid}/giveAnswer`,
-      data
-    );
-  }
-
-  private handleError(error: any): Promise<any> {
-    console.error('Something has gone wrong', error);
-    return Promise.reject(error.message || error);
-  }
-
+  //Like a Question
   public likeQuestion(questionId: String) {
     const data = { id: questionId };
     return this.http.put(
@@ -89,6 +90,7 @@ export class DataService {
     );
   }
 
+  //Dislike a Question
   public unlikeQuestion(questionId: String) {
     const data = { id: questionId };
     return this.http.put(
@@ -97,14 +99,45 @@ export class DataService {
     );
   }
 
-  public updateUser(userid: string, user: User) {
-    return this.http.put(`${this.SERVER_API}/api/${userid}/updateUser`, user);
-  }
-
+  //Modify a Question
   public editQuestion(questionId: string, data: any) {
     return this.http.put(
       `${this.SERVER_API}/api/${questionId}/editQuestion`,
       data
     );
+  }
+
+  //Create a Answer
+  public saveAnswer(questionid: string, data: any): Observable<any> {
+    //console.log(data);
+    return this.http.post<any>(
+      `${this.SERVER_API}/api/questions/${questionid}/giveAnswer`,
+      data
+    );
+  }
+
+  //Modify an Answer
+  public modifyAnswer(answerId: string, data: any) {
+    return this.http.put(`${this.SERVER_API}/api/${answerId}/editAnswer`, data);
+  }
+
+  //Handle Errors
+  private handleError(error: any): Promise<any> {
+    console.error('Something has gone wrong', error);
+    if (error instanceof HttpErrorResponse) {
+      if (error.error instanceof ErrorEvent) {
+        console.error('Error Event');
+      } else {
+        //console.error(`error status: ${e.status} ${e.statusText}`);
+        switch (error.status) {
+          case 400: //wrong credentials
+            console.error('Bad Request');
+
+            this.router.navigateByUrl('/questions');
+            break;
+        }
+      }
+    }
+    return Promise.reject(error.message || error);
   }
 }

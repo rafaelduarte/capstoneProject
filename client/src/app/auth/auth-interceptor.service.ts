@@ -38,7 +38,7 @@ export class AuthInterceptorService implements HttpInterceptor {
     }
 
     if (!authToken) {
-      console.log('No Token Found');
+      //console.log('No Token Found');
       this.router.navigateByUrl('/login');
     }
     const authRequest = req.clone({

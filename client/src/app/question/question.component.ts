@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { questions } from '../models/question.model';
 import { DataService } from '../services/data.service';
 import { faEdit, faHeart as fasHeart } from '@fortawesome/free-solid-svg-icons';
 import { faHeart as farHeart } from '@fortawesome/free-regular-svg-icons';
 import { AuthenticationService } from '../auth/authentication.service';
 import { coerceNumberProperty } from '@angular/cdk/coercion';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-question',
@@ -36,6 +37,7 @@ export class QuestionComponent implements OnInit {
   constructor(
     private dataService: DataService,
     private route: ActivatedRoute,
+    private router: Router,
     private authService: AuthenticationService
   ) {
     this.route.paramMap.subscribe((routeParam) => {
@@ -69,56 +71,79 @@ export class QuestionComponent implements OnInit {
     this.numberOfLikes = 0;
   }
 
+  //Get all questions
   private getAllQuestions() {
-    this.dataService.getQuestions().then((data) => {
-      this.questions = data;
-    });
+    this.dataService.getQuestions().subscribe(
+      (data) => {
+        this.questions = data;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   }
+
+  //Get question when clicked
   private getQuestionById(id: any) {
     //console.log('Sending GET request');
-    this.dataService.getSingleQuestion(id).then((data) => {
-      this.question = data;
-      if (this.question.answers.length) {
-        this.isAns = true;
-      }
+    this.dataService.getSingleQuestion(id).subscribe(
+      (data) => {
+        this.question = data;
 
-      if (this.question.owner._id === this.authService.getUserId()) {
-        this.isAnsByCurrentUser = true;
-        this.isQuesByCurrentUser = true;
-      }
+        //Check if questions has answers
+        if (this.question.answers.length) {
+          this.isAns = true;
+        }
 
-      if (this.isAns) {
-        let answerUsers = this.question.answers.find((id: any) => {
-          return id.author._id === this.authService.getUserId();
-        });
-        if (answerUsers) {
+        //check if current user is the asker
+        if (this.question?.owner._id === this.authService.getUserId()) {
           this.isAnsByCurrentUser = true;
+          this.isQuesByCurrentUser = true;
+        }
+
+        //Check if current user has answered a question to display edit answer button
+        if (this.isAns) {
+          this.question.answers.find((id: any) => {
+            if (id.author._id === this.authService.getUserId()) {
+              id.isAnsByCurrentUser = true;
+              this.isAnsByCurrentUser = true;
+            }
+          });
+        }
+
+        //Check if question is liked by current user
+        if (this.question.likedBy.includes(this.authService.getUserId())) {
+          this.isLikedByUser = true;
+          this.isLiked = true;
+        }
+
+        if (this.question.likes) {
+          this.numberOfLikes = this.question.likes;
+        }
+      },
+      (error) => {
+        if (error.status === 400) {
+          //console.log(`Bad Request`);
+          this.router.navigateByUrl('**');
         }
       }
-
-      if (this.question.likedBy.includes(this.authService.getUserId())) {
-        this.isLikedByUser = true;
-        this.isLiked = true;
-      }
-
-      if (this.question.likes) {
-        this.numberOfLikes = this.question.likes;
-      }
-    });
+    );
   }
 
+  //Like button
   likeButton(id: string) {
     this.dataService.likeQuestion(id).subscribe((data) => {
-      console.log(data);
+      //console.log(data);
       this.isLiked = true;
       this.isLikedByUser = true;
       this.numberOfLikes++;
     });
   }
 
+  //Unlike Button
   unlikeButton(id: string) {
     this.dataService.unlikeQuestion(id).subscribe((data) => {
-      console.log(data);
+      //console.log(data);
       this.isLiked = false;
       this.isLikedByUser = false;
       this.numberOfLikes--;
@@ -126,7 +151,7 @@ export class QuestionComponent implements OnInit {
   }
 
   editToggle() {
-    console.log();
+    //console.log();
     this.isEdit = true;
     this.getQuestionById(this.id);
   }

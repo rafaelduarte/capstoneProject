@@ -1,14 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/auth/authentication.service';
 import { CustomvalidationService } from 'src/app/services/customvalidation.service';
+import { faTimesCircle } from '@fortawesome/free-solid-svg-icons';
+import { stringify } from 'querystring';
 import { RegisterComponent } from '../register/register.component';
 
 @Component({
@@ -17,23 +14,22 @@ import { RegisterComponent } from '../register/register.component';
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
+  //Icons
+  faCross = faTimesCircle;
+
   form!: FormGroup;
-  isPasswordIncorrect: boolean = false;
-  isEmailIncorrect: boolean = false;
+  isFieldIncorrect: boolean = false;
   constructor(
     private formBuilder: FormBuilder,
-    private http: HttpClient,
+    private registerComponent: RegisterComponent,
     private router: Router,
-    private authService: AuthenticationService,
-    private customValidator: CustomvalidationService,
-    private registerComponent: RegisterComponent
+    private authService: AuthenticationService
   ) {}
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
-      rememberMe: '',
     });
   }
 
@@ -44,25 +40,21 @@ export class LoginComponent implements OnInit {
   login(): void {
     let email = this.form.controls['email'].value;
     let password = this.form.controls['password'].value;
-    let rememberMe = this.form.controls['rememberMe'].value;
-    console.log('This is log for remember ME', rememberMe);
     if (email && password) {
-      this.authService.login(email, password).subscribe((error) => {
-        if (
-          this.registerComponent.stringSearch(this.authService.error, 'email')
-        ) {
-          this.isEmailIncorrect = true;
-        } else if (
-          this.registerComponent.stringSearch(
-            this.authService.error,
-            'password'
-          )
-        ) {
-          this.isPasswordIncorrect = true;
+      this.authService.login(email, password).subscribe(
+        (res) => {
+          if (res) {
+            this.router.navigateByUrl('/');
+          }
+        },
+        (error) => {
+          if (error) {
+            this.isFieldIncorrect = true;
+            this.registerComponent.stringSearch(error, 'credentials');
+          }
+          this.isFieldIncorrect ? null : this.router.navigateByUrl('/');
         }
-      });
-
-      this.router.navigateByUrl('/');
+      );
     }
   }
 }

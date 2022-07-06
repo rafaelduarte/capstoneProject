@@ -76,7 +76,7 @@ const createQuestion = async (req, res) => {
         { new: true, useFindAndModify: false }
       ).exec((err, data) => {
         if (err) {
-          console.log(err);
+          console.error(err);
         } else {
           res.send(data);
         }
@@ -95,15 +95,17 @@ const editQuestion = async (req, res) => {
   question.text = req.body.text;
 
   try {
-    await Question
-      .findByIdAndUpdate(questionid, { title: question.title, text: question.text }, { new: true })
-      .exec((err, data) => {
-        if (err) {
-          console.error(err);
-        } else {
-          res.send(data);
-        }
-      });
+    await Question.findByIdAndUpdate(
+      questionid,
+      { title: question.title, text: question.text, isEdited: true },
+      { new: true }
+    ).exec((err, data) => {
+      if (err) {
+        console.error(err);
+      } else {
+        res.send(data);
+      }
+    });
   } catch (err) {
     console.error(err);
   }
