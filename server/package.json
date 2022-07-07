@@ -29,11 +29,12 @@
   },
   "main": "app.js",
   "keywords": [],
-  "author": "",
+  "author": "munindra",
   "license": "ISC",
-  "description": "",
+  "description": "Question and Answer API",
   "engines": {
     "node": "14.15.4",
     "npm": "7.6.0"
-  }
+  },
+  "devDependencies": {}
 }
